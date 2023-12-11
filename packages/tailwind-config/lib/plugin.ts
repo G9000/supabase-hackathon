@@ -9,14 +9,7 @@ export const twPlugin = plugin(
       ".dark": {},
     });
 
-    addBase({
-      "*": {
-        "@apply border-border": {},
-      },
-      body: {
-        "@apply bg-background text-foreground": {},
-      },
-    });
+    addBase({});
   },
   {
     theme: {

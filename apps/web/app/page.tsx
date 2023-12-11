@@ -1,7 +1,6 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import styles from "./page.module.css";
 
 import type { Database } from "types";
 
@@ -15,7 +14,7 @@ export default function Page(): JSX.Element {
   }
 
   return (
-    <main className={styles.main}>
+    <main>
       <div>
         <button onClick={handleClick}>Test</button>
       </div>

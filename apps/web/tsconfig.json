@@ -5,7 +5,14 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "providers/*": ["app/providers/*"],
+      "components/*": ["components/*"],
+      "store/*": ["store/*"],
+      "type/*": ["type/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

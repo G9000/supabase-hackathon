@@ -1,0 +1,142 @@
+[
+    {
+        "user": {
+            "grocery": {
+                "list_name": "Coffee essential",
+                "description": "I drink coffee everyday, so need to stock up",
+                "recipe": [
+                    "Coffee latte"
+                ],
+                "budge": 80,
+                "currency": "MYR",
+                "repeatable": true,
+                "portion_sizes": "1-2 cup per day",
+                "total_spending": 74,
+                "estimated_savings": 6,
+                "grocery_list": [
+                    {
+                        "completed": true,
+                        "schedule_on": "2023-12-10T09:00:00Z",
+                        "stock_check": [],
+                        "total_spending": 74,
+                        "items": [
+                            {
+                                "id": 1,
+                                "name": "Espresso Beans",
+                                "quantity": "1 kg",
+                                "price_per_unit": 60,
+                                "done": true
+                            },
+                            {
+                                "id": 2,
+                                "name": "Oats Milk",
+                                "quantity": "1 carton",
+                                "price_per_unit": 14,
+                                "done": true
+                            }
+                        ]
+                    },
+                    {
+                        "completed": false,
+                        "schedule_on": "2023-12-10T09:00:00Z",
+                        "stock_check": [
+                            {
+                                "id": 1,
+                                "name": "Espresso Beans",
+                                "current_stock": "0.5 kg",
+                                "usual_quantity": "1 kg",
+                                "adjusted_quantity_needed": "0.5 kg"
+                            }
+                        ],
+                        "items": [
+                            {
+                                "id": 1,
+                                "name": "Espresso Beans",
+                                "quantity": "0.5 kg",
+                                "price_per_unit": 60,
+                                "done": false
+                            },
+                            {
+                                "id": 2,
+                                "name": "Oats Milk",
+                                "quantity": "1 carton",
+                                "price_per_unit": 14,
+                                "done": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "user": {
+            "grocery": {
+                "list_name": "Special Dinner Prep",
+                "description": "Preparing a special dinner for a weekend gathering",
+                "recipe": [
+                    "Roast Chicken",
+                    "Vegetable Salad"
+                ],
+                "budget": 150,
+                "currency": "MYR",
+                "repeatable": false,
+                "portion_sizes": "Serves 4-5",
+                "total_spent": 0,
+                "estimated_savings": 0,
+                "grocery_list": [
+                    {
+                        "completed": false,
+                        "schedule_on": "2023-12-15T09:00:00Z",
+                        "stock_check": [],
+                        "total_spending": 0,
+                        "items": [
+                            {
+                                "id": 1,
+                                "name": "Whole Chicken",
+                                "quantity": "1.5 kg",
+                                "price_per_unit": 30,
+                                "done": false
+                            },
+                            {
+                                "id": 2,
+                                "name": "Mixed Salad Greens",
+                                "quantity": "1 pack",
+                                "price_per_unit": 10,
+                                "done": false
+                            },
+                            {
+                                "id": 3,
+                                "name": "Cherry Tomatoes",
+                                "quantity": "1 pack",
+                                "price_per_unit": 8,
+                                "done": false
+                            },
+                            {
+                                "id": 4,
+                                "name": "Olive Oil",
+                                "quantity": "1 bottle",
+                                "price_per_unit": 25,
+                                "done": false
+                            },
+                            {
+                                "id": 5,
+                                "name": "Balsamic Vinegar",
+                                "quantity": "1 bottle",
+                                "price_per_unit": 20,
+                                "done": false
+                            },
+                            {
+                                "id": 6,
+                                "name": "Seasoning Mix",
+                                "quantity": "1 pack",
+                                "price_per_unit": 7,
+                                "done": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]

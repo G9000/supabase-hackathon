@@ -1,0 +1,74 @@
+{
+    "user": {
+        "basic_info": {
+            "name": "John Doe",
+            "age": 30,
+            "gender": "Male",
+            "currency": "MYR",
+            "budget": 200,
+            "total_usage": 65
+        },
+        "food_preferences": {
+            "likes": [
+                "Pizza",
+                "Sushi"
+            ],
+            "dislikes": [
+                "Broccoli",
+                "Spicy Food"
+            ],
+            "cuisine": [
+                "Italian",
+                "Asian"
+            ],
+            "allergy": [
+                "Peanuts"
+            ],
+            "dietary_needs": [
+                "Gluten-Free",
+                "Low Sugar"
+            ],
+            "organic_preference": true,
+            "dietary_requirements": {
+                "vegetarian": false,
+                "vegan": false,
+                "pescatarian": false,
+                "ketogenic": false,
+                "paleo": false,
+                "dairy_free": false,
+                "halal": false,
+                "kosher": false
+            },
+            "meal_preferences": {
+                "breakfast": true,
+                "lunch": true,
+                "dinner": true,
+                "snacks": true
+            },
+            "cooking_time_preference": {
+                "short": true,
+                "medium": false,
+                "long": false
+            },
+            "skill_level": "beginner",
+            "portion_sizes": "2-3",
+            "favorite_ingredients": [
+                "Chicken",
+                "Rice",
+                "Tomatoes"
+            ],
+            "frequency_of_certain_foods": {
+                "pizza": "occasionally",
+                "sushi": "weekly"
+            },
+            "health_goals": {
+                "losing_weight": false,
+                "gaining_weight": false,
+                "maintaining_weight": false,
+                "improving_fitness": false,
+                "managing_health_condition": false,
+                "other": false
+            }
+        }
+    }
+}

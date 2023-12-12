@@ -7,17 +7,12 @@ create table "public"."diet_preferences" (
     "user_id" uuid,
     "likes" character varying[],
     "dislikes" character varying[],
-    "cuisine" character varying[],
     "allergy" character varying[],
-    "dietary_needs" character varying,
-    "dietary_requirements" json,
-    "meal_preferences" json,
-    "cooking_time_preference" json,
+    "dietary_requirements" character varying[],
     "organic_preference" boolean not null default false,
-    "skill_level" skill_level_enum,
-    "portion_sizes" integer default 1,
-    "frequency_of_certain_foods" json,
-    "health_goals" json,
+    "meal_preferences" character varying[],
+    "cuisine_preference" character varying[],
+    "cooking_time_preference" character varying[],
     "favorite_ingredients" character varying[]
 );
 
@@ -77,7 +72,8 @@ create table "public"."users" (
     "display_name" text,
     "email" text,
     "currency" character varying,
-    "total_spending" integer
+    "location" character varying,
+    "total_spend" character varying
 );
 
 
@@ -124,6 +120,17 @@ alter table "public"."users" add constraint "users_id_fkey" FOREIGN KEY (id) REF
 alter table "public"."users" validate constraint "users_id_fkey";
 
 set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.create_diet_preferences_on_sign_up()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$BEGIN
+  INSERT INTO public.diet_preferences(user_id)
+  VALUES (NEW.id);
+  RETURN NEW;
+END;$function$
+;
 
 CREATE OR REPLACE FUNCTION public.create_user_on_sign_up()
  RETURNS trigger
@@ -369,5 +376,12 @@ for all
 to public
 using ((auth.uid() = id));
 
+-- Create the trigger 'new_user_trigger'
+CREATE TRIGGER new_user_trigger
+AFTER INSERT ON auth.users 
+FOR EACH ROW
+EXECUTE FUNCTION create_user_on_sign_up();
+
+CREATE TRIGGER new_diet_preference_trigger AFTER INSERT ON public.users FOR EACH ROW EXECUTE FUNCTION create_diet_preferences_on_sign_up();
 
 

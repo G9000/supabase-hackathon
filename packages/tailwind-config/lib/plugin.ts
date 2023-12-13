@@ -67,7 +67,11 @@ export const twPlugin = plugin(
         center: true,
         padding: "2rem",
         screens: {
-          "2xl": "1400px",
+          DEFAULT: "430px",
+          sm: "430px",
+          lg: "820px",
+          xl: "820px",
+          "2xl": "820px",
         },
       },
       extend: {

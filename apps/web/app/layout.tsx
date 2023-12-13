@@ -1,8 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { cn } from "lib/cn";
 
-const nunito = Nunito({
+const fontSans = Nunito({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
   adjustFontFallback: false,
@@ -20,7 +22,14 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body
+        className={cn(
+          "min-h-screen scroll-smooth bg-background font-sans antialiased container",
+          fontSans.variable
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }

@@ -8,4 +8,4 @@ supabase db diff --use-migra initial_schema -f inital_schema
 
 ## Dashboard
 
-http://127.0.0.1:54321
+http://localhost:54323/project/default

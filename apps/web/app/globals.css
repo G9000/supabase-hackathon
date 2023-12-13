@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 textarea {
-  overflow: hidden !important;
+  overflow: hidden;
 }
 textarea {
-  overflow: hidden;
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
 }

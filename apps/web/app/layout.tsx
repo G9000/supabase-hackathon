@@ -1,8 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
+import { cn } from "lib/cn";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = Nunito({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -16,7 +22,14 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={cn(
+          "min-h-screen scroll-smooth bg-background font-sans antialiased container",
+          fontSans.variable
+        )}
+      >
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Card,
   CardContent,
@@ -6,7 +7,6 @@ import {
   CardTitle,
 } from "components/base/Card";
 import { Badge } from "components/base/Badge";
-import { Textarea } from "components/base/Textarea";
 import { Button } from "components/base/Button";
 import Image from "next/image";
 
@@ -15,15 +15,15 @@ interface OnboardignCardPropsI {
   currStage?: number;
   totalStage?: number;
   title?: string;
-  textPlaceholder?: string;
+  children?: ReactNode;
 }
 
 export default function OnboardignCard({
-  headerImgSrc = "",
+  headerImgSrc = "bento.png",
   currStage = 1,
   totalStage = 1,
   title = "Title Here",
-  textPlaceholder = "Placeholder",
+  children,
 }: OnboardignCardPropsI) {
   return (
     <Card className="max-w-[325px] h-auto grid gap-4">
@@ -43,13 +43,7 @@ export default function OnboardignCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="text-sm">{title}</CardContent>
-      <CardContent>
-        <Textarea
-          placeholder={textPlaceholder}
-          className="border-0 pl-0 text-2xl leading-6 font-bold opacity-30 h-[100px] focus-visible:ring-0"
-        />
-      </CardContent>
-
+      {children}
       <CardFooter>
         <Button>Continue</Button>
       </CardFooter>

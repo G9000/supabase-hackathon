@@ -1,14 +1,22 @@
 import OpenAI from "openai";
-import { OpenAiConfig } from "./config";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 // Creat assistant
-export const createAssistant = async ({ model }: { model?: string }) => {
+export const createAssistant = async ({
+  name,
+  instructions,
+  model,
+}: {
+  name: string;
+  instructions: string;
+  model?: string;
+}) => {
   const assistant = await openai.beta.assistants.create({
-    ...OpenAiConfig,
+    name,
+    instructions,
     model: model || "gpt-3.5-turbo",
   });
 

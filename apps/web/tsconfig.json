@@ -12,7 +12,8 @@
       "components/*": ["components/*"],
       "store/*": ["store/*"],
       "type/*": ["type/*"],
-      "utils/*": ["utils/*"]
+      "utils/*": ["utils/*"],
+      "assistant/*": ["assistant/*"]
     }
   },
   "include": [

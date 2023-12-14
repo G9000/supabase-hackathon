@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 import { createBrowserClient } from "@supabase/ssr";
 
 export const createClient = () =>

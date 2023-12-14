@@ -61,10 +61,13 @@ export default function OnboardignCard({
       </CardContent>
       {children}
       <CardFooter className="flex gap-x-2">
-        <Button onClick={handleNext} className="p-0 overflow-hidden border border-black rounded-full">
+        <Button
+          onClick={handleNext}
+          className="p-0 overflow-hidden border border-black rounded-full"
+        >
           <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
             <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
-              {!!lastStep ? 'Continue & Review' : 'Continue'}
+              {!lastStep ? "Continue & Review" : "Continue"}
             </span>
           </span>
         </Button>

@@ -23,6 +23,23 @@ export const createAssistant = async ({
   return assistant;
 };
 
+// Update assistant
+export const updateAssistant = async ({
+  assistantId,
+  instructions,
+  model,
+}: {
+  assistantId: string;
+  instructions: string;
+  model?: string;
+}) => {
+  const assistant = await openai.beta.assistants.update(assistantId, {
+    instructions,
+    model,
+  });
+  return assistant;
+};
+
 // Run assistant
 export const runAssistant = async ({
   assistantId,

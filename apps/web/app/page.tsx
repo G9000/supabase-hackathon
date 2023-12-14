@@ -8,7 +8,9 @@ export default function Page(): JSX.Element {
   const supabase = createClientComponentClient<Database>();
 
   async function handleClick() {
-    let { data: users, error } = await supabase.from("users").select("*");
+    let { data: users, error } = await supabase
+      .from("users")
+      .select(`*, diet_preferences (*)`);
 
     console.log(users, error);
   }

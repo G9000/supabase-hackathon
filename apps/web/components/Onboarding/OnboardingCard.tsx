@@ -21,6 +21,7 @@ interface OnboardignCardPropsI {
   handleNext?: () => void;
   handleBack?: () => void;
   children?: ReactNode;
+  lastStep?: boolean;
 }
 
 export default function OnboardignCard({
@@ -33,6 +34,7 @@ export default function OnboardignCard({
   handleNext,
   handleBack,
   children,
+  lastStep,
 }: OnboardignCardPropsI) {
   return (
     <Card className="max-w-[325px] h-auto grid gap-4">
@@ -59,7 +61,13 @@ export default function OnboardignCard({
       </CardContent>
       {children}
       <CardFooter className="flex gap-x-2">
-        <Button onClick={handleNext}>Continue</Button>
+        <Button onClick={handleNext} className="p-0 overflow-hidden border border-black rounded-full">
+          <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
+            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
+              {!!lastStep ? 'Continue & Review' : 'Continue'}
+            </span>
+          </span>
+        </Button>
         {handleBack && (
           <Button onClick={handleBack} variant="secondary">
             Back

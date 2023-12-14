@@ -35,9 +35,9 @@ export default function OnboardingCardInfo({
             width={32}
           />
         </div>
-        <h5 className={cn("text-sm font-black text-sky-500", titleClassName)}>
+        <span className={cn("text-sm font-black text-sky-500", titleClassName)}>
           {title}
-        </h5>
+        </span>
       </CardTitle>
       <CardContent>
         <p className={cn("text-sm text-sky-500", descriptionClassName)}>

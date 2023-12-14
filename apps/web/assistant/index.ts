@@ -4,6 +4,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+export const dashId = process.env.NEXT_PUBLIC_DASH_ASSISTANT_ID as string;
+
 // Creat assistant
 export const createAssistant = async ({
   name,

@@ -18,7 +18,8 @@ interface OnboardignCardPropsI {
   totalStage?: number;
   title?: string;
   titleClassName?: string;
-  handleBtnClick?: () => void;
+  handleNext?: () => void;
+  handleBack?: () => void;
   children?: ReactNode;
 }
 
@@ -29,7 +30,8 @@ export default function OnboardignCard({
   totalStage = 1,
   title = "Title Here",
   titleClassName,
-  handleBtnClick,
+  handleNext,
+  handleBack,
   children,
 }: OnboardignCardPropsI) {
   return (
@@ -56,8 +58,13 @@ export default function OnboardignCard({
         {title}
       </CardContent>
       {children}
-      <CardFooter>
-        <Button onClick={handleBtnClick}>Continue</Button>
+      <CardFooter className="flex gap-x-2">
+        <Button onClick={handleNext}>Continue</Button>
+        {handleBack && (
+          <Button onClick={handleBack} variant="secondary">
+            Back
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

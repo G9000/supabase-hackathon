@@ -1,5 +1,5 @@
 import { CardContent } from "components/base/Card";
-import OnboardignCard from "components/OnboardingCard";
+import OnboardignCard from "components/Onboarding/OnboardingCard";
 import { Textarea } from "components/base/Textarea";
 
 const stageConfig = {

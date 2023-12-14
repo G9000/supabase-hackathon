@@ -1,7 +1,7 @@
 import { CardContent } from "components/base/Card";
-import OnboardignCard from "components/OnboardingCard";
+import OnboardignCard from "components/Onboarding/OnboardingCard";
 import { Textarea } from "components/base/Textarea";
-import OnboardingCardInfo from "components/OnboardingCardInfo";
+import OnboardingCardInfo from "components/Onboarding/OnboardingCardInfo";
 
 // Temprary config
 const stageConfig = {

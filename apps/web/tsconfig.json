@@ -11,7 +11,8 @@
       "providers/*": ["app/providers/*"],
       "components/*": ["components/*"],
       "store/*": ["store/*"],
-      "type/*": ["type/*"]
+      "type/*": ["type/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": [

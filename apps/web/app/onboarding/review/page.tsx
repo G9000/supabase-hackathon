@@ -1,4 +1,7 @@
+"use client";
+
 import OnboardingLayout from "components/onboarding/OnboardingLayout";
+import { useOnboardingContext } from "providers/onboarding-provider";
 import { Button } from "components/base/Button";
 import Image from "next/image";
 
@@ -8,6 +11,19 @@ const config = {
 };
 
 export default function Page() {
+  const {
+    likes,
+    dislikes,
+    allergy,
+    dietaryPreferences,
+    cuisinePreferences,
+    // setLikes,
+    // setDislikes,
+    // setAllergy,
+    // setDietaryPreferences,
+    // setCuisinePreferences,
+  } = useOnboardingContext();
+
   return (
     <OnboardingLayout {...config}>
       <div className="flex flex-col md:flex-row text-left gap-5 w-screen overflow-auto items-center justify-center py-8">
@@ -20,7 +36,7 @@ export default function Page() {
           </div>
           <div className="mt-3 mb-2 text-foreground/50">You crave for</div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            Ramen, Sushi, and Sashimi
+            {likes}
           </div>
         </div>
 
@@ -38,7 +54,7 @@ export default function Page() {
           </div>
           <div className="mt-3 mb-2 text-foreground/50">You don’t likes</div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            Ramen, Sushi, and Sashimi
+            {dislikes}
           </div>
         </div>
 
@@ -51,7 +67,7 @@ export default function Page() {
           </div>
           <div className="mt-3 mb-2 text-foreground/50">You’re allergic to</div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            Ramen, Sushi, and Sashimi
+            {allergy}
           </div>
         </div>
 
@@ -71,7 +87,7 @@ export default function Page() {
             Your diet or restrictions
           </div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            Ramen, Sushi, and Sashimi
+            {dietaryPreferences}
           </div>
         </div>
 
@@ -86,7 +102,7 @@ export default function Page() {
             Your cuisine preference
           </div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            Ramen, Sushi, and Sashimi
+            {cuisinePreferences}
           </div>
         </div>
       </div>

@@ -5,7 +5,13 @@ import OnboardignCard from "components/Onboarding/OnboardingCard";
 import { Textarea } from "components/base/Textarea";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import OnboardingLayout from "components/Onboarding/OnboardingLayout";
+import { useRouter } from "next/navigation";
 
+const pageConfig = {
+  label: "Meal preferences",
+  title: "Let’s get started with your meal preferences",
+};
 
 const stageConfig1 = {
   title: "Let’s get started, What kind of meal would you like to have?",
@@ -43,6 +49,7 @@ const stageConfig5 = {
 };
 
 export default function Page() {
+  const router = useRouter()
   const [step, setStep] = useState(0);
 
   const handleNext = () => {
@@ -54,11 +61,11 @@ export default function Page() {
   }
 
   const handleSubmit = () => {
-    // todo
+    router.push("/onboarding/review")
   }
 
   return (
-    <div >
+    <OnboardingLayout {...pageConfig}>
       {step >= 0 &&
         <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
           <motion.div
@@ -226,7 +233,6 @@ export default function Page() {
           </motion.div>
         </div>
       }
-
-    </div>
+    </OnboardingLayout>
   );
 }

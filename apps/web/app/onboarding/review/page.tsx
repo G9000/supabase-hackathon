@@ -16,7 +16,7 @@ export default function Page() {
   const {
     likes,
     dislikes,
-    allergy,
+    allergies,
     dietaryPreferences,
     cuisinePreferences,
     // setLikes,
@@ -73,7 +73,7 @@ export default function Page() {
           </div>
           <div className="mt-3 mb-2 text-foreground/50">You’re allergic to</div>
           <div className="font-extrabold text-xl leading-6 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
-            {allergy}
+            {allergies}
           </div>
         </div>
 

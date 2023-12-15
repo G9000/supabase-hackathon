@@ -4,6 +4,7 @@ import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import { useOnboardingContext } from "providers/onboarding-provider";
 import { Button } from "components/base/Button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const config = {
   label: "Review preference",
@@ -11,6 +12,7 @@ const config = {
 };
 
 export default function Page() {
+  const router = useRouter();
   const {
     likes,
     dislikes,
@@ -23,6 +25,10 @@ export default function Page() {
     // setDietaryPreferences,
     // setCuisinePreferences,
   } = useOnboardingContext();
+
+  const handleNext = () => {
+    router.push("/onboarding/last-step");
+  };
 
   return (
     <OnboardingLayout {...config}>
@@ -107,17 +113,19 @@ export default function Page() {
         </div>
       </div>
 
-      <p className="text-sm leading-5 mb-4 text-foreground/50 max-w-[277px] text-center">
-        Feel free to adjust further or if you have more details you’d like to
-        include! If you’re ready to roll, let’s continue
-      </p>
-      <Button className="p-0 overflow-hidden border border-black rounded-full">
-        <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
-          <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
-            Perfect! Continue
+      <div className="flex flex-col items-center">
+        <p className="text-sm leading-5 mb-4 text-foreground/50 max-w-[277px] text-center">
+          Feel free to adjust further or if you have more details you’d like to
+          include! If you’re ready to roll, let’s continue
+        </p>
+        <Button className="p-0 overflow-hidden border border-black rounded-full" onClick={handleNext}>
+          <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
+            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
+              Perfect! Continue
+            </span>
           </span>
-        </span>
-      </Button>
+        </Button>
+      </div>
     </OnboardingLayout>
   );
 }

@@ -78,7 +78,7 @@ export default function Page() {
   return (
     <OnboardingLayout {...pageConfig}>
       {step >= 0 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: step > 0 ? 0.8 : 1 }}
@@ -110,7 +110,7 @@ export default function Page() {
       )}
 
       {step >= 1 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-10">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{
@@ -147,7 +147,7 @@ export default function Page() {
       )}
 
       {step >= 2 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{
@@ -184,7 +184,7 @@ export default function Page() {
       )}
 
       {step >= 3 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{
@@ -221,7 +221,7 @@ export default function Page() {
       )}
 
       {step >= 4 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{
@@ -258,7 +258,7 @@ export default function Page() {
       )}
 
       {step >= 5 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{

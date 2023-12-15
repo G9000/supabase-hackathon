@@ -5,7 +5,7 @@ import { runCheck } from "assistant";
 export async function POST(request: Request) {
   try {
     let { runId, threadId } = await request.json();
-
+    console.log("threadId", threadId);
     if (!runId || !threadId) {
       return NextResponse.json(
         { message: "fields are required" },

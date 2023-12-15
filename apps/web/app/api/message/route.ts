@@ -13,6 +13,7 @@ export async function POST(request: Request) {
     }
 
     let newMessage = await createMessage({ threadId, content });
+    console.log("messages", newMessage);
 
     return NextResponse.json({ message: newMessage });
   } catch (error: any) {
@@ -32,6 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     let messages = await getMessages(query);
+    console.log("messages", messages);
 
     return NextResponse.json({ messages });
   } catch (error: any) {

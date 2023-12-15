@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { runAssistant } from "assistant/assistant";
+import { runAssistant } from "assistant";
 
 export async function POST(request: Request) {
   try {

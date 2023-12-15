@@ -16,7 +16,9 @@ export default async function Footer() {
         src={profilePicture || "/logo.svg"}
         alt="profile picture"
       />
-      <Button variant={"danger"}>Logout</Button>
+      <form action="/auth/logout">
+        <Button variant={"danger"}>Logout</Button>
+      </form>
     </div>
   );
 }

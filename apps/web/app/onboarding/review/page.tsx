@@ -32,8 +32,8 @@ export default function Page() {
 
   return (
     <OnboardingLayout {...config}>
-      <div className="flex flex-col md:flex-row text-left gap-5 w-screen overflow-auto items-center justify-center py-8">
-        <div className="border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
+      <div className="flex flex-row text-left gap-5 w-screen overflow-x-auto items-center py-8 scrollbar-hide">
+        <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2 ml-auto">
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/bento.png"} alt="icon" height={48} width={48} />
             <div className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
@@ -46,7 +46,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2">
+        <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2">
           <div className="flex flex-row items-start justify-between">
             <Image
               src={"/icons/nauseous.png"}
@@ -64,7 +64,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
+        <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/sick.png"} alt="icon" height={48} width={48} />
             <div className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
@@ -77,7 +77,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
+        <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
           <div className="flex flex-row items-start justify-between">
             <Image
               src={"/icons/medicine.png"}
@@ -97,7 +97,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2">
+        <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2 mr-auto">
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/happy.png"} alt="icon" height={48} width={48} />
             <div className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">

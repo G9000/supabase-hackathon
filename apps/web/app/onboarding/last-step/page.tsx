@@ -47,7 +47,7 @@ export default function Page() {
   };
 
   const handleSubmit = () => {
-    // todo
+    setIsLoading(true);
   };
 
   const ComposingRecipe = () => {

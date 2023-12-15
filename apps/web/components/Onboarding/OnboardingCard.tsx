@@ -76,10 +76,10 @@ export default function OnboardignCard({
       <CardFooter className="flex gap-x-2">
         <Button
           onClick={handleNext}
-          className="p-0 overflow-hidden border border-black rounded-full"
+          className="p-0 overflow-hidden border border-white/10 rounded-full"
         >
-          <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
-            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
+          <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">
+            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-[#3c3c3c] to-foreground font-bold text-base">
               {selectedWord()}
             </span>
           </span>

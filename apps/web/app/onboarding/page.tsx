@@ -10,20 +10,14 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useOnboardingContext } from "providers/onboarding-provider";
-import {
-  stageConfig1,
-  stageConfig2,
-  stageConfig3,
-  stageConfig4,
-  stageConfig5,
-} from "./config";
+import { stageConfigs } from "./config";
 
 const onboardingSchema = t.Object({
   likes: t.String(),
   dislikes: t.String(),
-  allergy: t.String(),
-  dietary_preferences: t.String(),
-  cuisine_preferences: t.String(),
+  allergies: t.String(),
+  dietaryPreferences: t.String(),
+  cuisinePreferences: t.String(),
 });
 
 type SignInSchema = Static<typeof onboardingSchema>;
@@ -32,7 +26,7 @@ export default function Page() {
   const {
     setLikes,
     setDislikes,
-    setAllergy,
+    setAllergies,
     setDietaryPreferences,
     setCuisinePreferences,
   } = useOnboardingContext();
@@ -40,19 +34,25 @@ export default function Page() {
   const router = useRouter();
   const [step, setStep] = useState(0);
 
-  const { register, handleSubmit: validateForm } = useForm<SignInSchema>({
+  const {
+    register,
+    handleSubmit: validateForm,
+    watch,
+  } = useForm<SignInSchema>({
     resolver: typeboxResolver(onboardingSchema),
     defaultValues: {
       likes: "",
       dislikes: "",
-      allergy: "",
-      dietary_preferences: "",
-      cuisine_preferences: "",
+      allergies: "",
+      dietaryPreferences: "",
+      cuisinePreferences: "",
     },
   });
 
+  const watchedValues = watch();
+
   const handleNext = () => {
-    if (step === 5) {
+    if (step === stageConfigs.length - 1) {
       validateForm(handleFormSubmit)();
     } else {
       setStep((prevStep) => prevStep + 1);
@@ -62,21 +62,19 @@ export default function Page() {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: SignInSchema) => {
     setLikes(data.likes);
     setDislikes(data.dislikes);
-    setAllergy(data.allergy);
-    setDietaryPreferences(data.dietary_preferences);
-    setCuisinePreferences(data.cuisine_preferences);
-
-    console.log("data", data);
-
+    setAllergies(data.allergies);
+    setDietaryPreferences(data.dietaryPreferences);
+    setCuisinePreferences(data.cuisinePreferences);
     router.push("/onboarding/review");
   };
+
   return (
     <>
       {step >= 0 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: step > 0 ? 0.8 : 1 }}
@@ -92,14 +90,15 @@ export default function Page() {
             }}
           >
             <OnboardignCard
-              showHeader={false}
-              title="What should I call you?"
+              {...stageConfigs[0]?.questionConfig}
               handleNext={handleNext}
+              handleNextDisabled={watchedValues.likes.length === 0}
             >
               <CardContent>
                 <Textarea
-                  placeholder="I would like to have shoyu ramen, sashimi, okonomiyaki..."
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
+                  {...stageConfigs[0]?.textConfig}
+                  {...register("likes")}
                 />
               </CardContent>
             </OnboardignCard>
@@ -108,7 +107,7 @@ export default function Page() {
       )}
 
       {step >= 1 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 w-full">
+        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.98, y: 200 }}
             animate={{
@@ -128,15 +127,16 @@ export default function Page() {
             }}
           >
             <OnboardignCard
-              {...stageConfig1}
+              {...stageConfigs[1]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
+              handleNextDisabled={watchedValues.dislikes.length === 0}
             >
               <CardContent>
                 <Textarea
-                  placeholder="I would like to have shoyu ramen, sashimi, okonomiyaki..."
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
-                  {...register("likes")}
+                  {...stageConfigs[1]?.textConfig}
+                  {...register("dislikes")}
                 />
               </CardContent>
             </OnboardignCard>
@@ -165,15 +165,16 @@ export default function Page() {
             }}
           >
             <OnboardignCard
-              {...stageConfig2}
+              {...stageConfigs[2]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
+              handleNextDisabled={watchedValues.allergies.length === 0}
             >
               <CardContent>
                 <Textarea
-                  placeholder="I don’t like peanuts, kiwi, and durian..."
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
-                  {...register("dislikes")}
+                  {...stageConfigs[2]?.textConfig}
+                  {...register("allergies")}
                 />
               </CardContent>
             </OnboardignCard>
@@ -202,15 +203,16 @@ export default function Page() {
             }}
           >
             <OnboardignCard
-              {...stageConfig3}
+              {...stageConfigs[3]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
+              handleNextDisabled={watchedValues.dietaryPreferences.length === 0}
             >
               <CardContent>
                 <Textarea
-                  placeholder="I’m allergic to peanut, lactose intolerant and I don’t like spicy..."
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
-                  {...register("allergy")}
+                  {...stageConfigs[3]?.textConfig}
+                  {...register("dietaryPreferences")}
                 />
               </CardContent>
             </OnboardignCard>
@@ -239,53 +241,17 @@ export default function Page() {
             }}
           >
             <OnboardignCard
-              {...stageConfig4}
+              {...stageConfigs[4]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-            >
-              <CardContent>
-                <Textarea
-                  placeholder="Halal and occasionally pescatarian..."
-                  className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
-                  {...register("dietary_preferences")}
-                />
-              </CardContent>
-            </OnboardignCard>
-          </motion.div>
-        </div>
-      )}
-
-      {step >= 5 && (
-        <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 w-full">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 200 }}
-            animate={{
-              opacity: 1,
-              scale: step > 5 ? 0.9 : 1,
-              y: step > 5 ? -40 : 0,
-            }}
-            transition={{
-              duration: 0.3,
-              ease: [0, 0.71, 0.2, 1.01],
-              scale: {
-                type: "spring",
-                damping: 10,
-                stiffness: 100,
-                restDelta: 0.001,
-              },
-            }}
-          >
-            <OnboardignCard
-              {...stageConfig5}
-              handleNext={handleNext}
-              handleBack={handleBack}
+              handleNextDisabled={watchedValues.cuisinePreferences.length === 0}
               lastStep
             >
               <CardContent>
                 <Textarea
-                  placeholder="I like Chinese and Japanese food..."
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
-                  {...register("cuisine_preferences")}
+                  {...stageConfigs[4]?.textConfig}
+                  {...register("cuisinePreferences")}
                 />
               </CardContent>
             </OnboardignCard>

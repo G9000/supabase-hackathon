@@ -19,6 +19,7 @@ interface OnboardignCardPropsI {
   title?: string;
   titleClassName?: string;
   handleNext?: () => void;
+  handleNextDisabled?: boolean;
   handleBack?: () => void;
   children?: ReactNode;
   lastStep?: boolean;
@@ -33,12 +34,12 @@ export default function OnboardignCard({
   title = "Title Here",
   titleClassName,
   handleNext,
+  handleNextDisabled = false,
   handleBack,
   children,
   lastStep,
   lastStepButton,
 }: OnboardignCardPropsI) {
-
   const selectedWord = () => {
     if (lastStep && lastStepButton) {
       return lastStepButton;
@@ -76,6 +77,7 @@ export default function OnboardignCard({
       <CardFooter className="flex gap-x-2">
         <Button
           onClick={handleNext}
+          disabled={handleNextDisabled}
           className="p-0 overflow-hidden border border-white/10 rounded-full"
         >
           <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">

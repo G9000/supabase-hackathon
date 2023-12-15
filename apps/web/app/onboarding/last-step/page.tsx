@@ -4,7 +4,7 @@ import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import OnboardignCard from "components/onboarding/OnboardingCard";
+import OnboardingCard from "components/onboarding/OnboardingCard";
 import { CardContent } from "components/base/Card";
 import { Textarea } from "components/base/Textarea";
 import { RadioGroup, RadioGroupItem } from "components/base/Radio";
@@ -16,7 +16,8 @@ const config = {
 };
 
 export const stageConfig1 = {
-  title: "How long would you like this meal plan to cover? Pick the duration that suits you!",
+  title:
+    "How long would you like this meal plan to cover? Pick the duration that suits you!",
   headerImgSrc: "calendar.png",
   currStage: 1,
   totalStage: 2,
@@ -31,7 +32,7 @@ export const stageConfig2 = {
 
 const composingRecipeConfig = {
   label: "Composing recipe",
-  showTitle: false
+  showTitle: false,
 };
 
 export default function Page() {
@@ -53,10 +54,15 @@ export default function Page() {
   const ComposingRecipe = () => {
     return (
       <OnboardingLayout {...composingRecipeConfig}>
-        <h1 className="loader mt-4 max-w-md text-center text-2xl font-extrabold opacity-50 bg-gradient-to-r from-[#0808081f] from-20% via-[#080808a2] via-50% to-[#0808081f] to-80% text-transparent bg-clip-text">I would like to have meal plan for 2 weeks with 1000 SGD. I like shoyu ramen, sashimi, okonomiyaki. I don’t like Pork, Spicy, and Salmon. My restriction is haram food, peanuts, and lactose intolerant. My fav cuisine are Chinese and Japanese food</h1>
+        <h1 className="loader mt-4 max-w-md text-center text-2xl font-extrabold opacity-50 bg-gradient-to-r from-[#0808081f] from-20% via-[#080808a2] via-50% to-[#0808081f] to-80% text-transparent bg-clip-text">
+          I would like to have meal plan for 2 weeks with 1000 SGD. I like shoyu
+          ramen, sashimi, okonomiyaki. I don’t like Pork, Spicy, and Salmon. My
+          restriction is haram food, peanuts, and lactose intolerant. My fav
+          cuisine are Chinese and Japanese food
+        </h1>
       </OnboardingLayout>
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -83,28 +89,51 @@ export default function Page() {
                   },
                 }}
               >
-                <OnboardignCard
-                  {...stageConfig1}
-                  handleNext={handleNext}
-                >
+                <OnboardingCard {...stageConfig1} handleNext={handleNext}>
                   <CardContent>
                     <RadioGroup defaultValue="option-one">
                       <div className="flex items-center space-x-3">
-                        <RadioGroupItem value="option-one" id="option-one" className="w-6 h-6" />
-                        <Label htmlFor="option-one" className="font-extrabold text-2xl">A day</Label>
+                        <RadioGroupItem
+                          value="option-one"
+                          id="option-one"
+                          className="w-6 h-6"
+                        />
+                        <Label
+                          htmlFor="option-one"
+                          className="font-extrabold text-2xl"
+                        >
+                          A day
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <RadioGroupItem value="option-two" id="option-two" className="w-6 h-6" />
-                        <Label htmlFor="option-two" className="font-extrabold text-2xl">A Week</Label>
+                        <RadioGroupItem
+                          value="option-two"
+                          id="option-two"
+                          className="w-6 h-6"
+                        />
+                        <Label
+                          htmlFor="option-two"
+                          className="font-extrabold text-2xl"
+                        >
+                          A Week
+                        </Label>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <RadioGroupItem value="option-three" id="option-three" className="w-6 h-6" />
-                        <Label htmlFor="option-three" className="font-extrabold text-2xl">2 Weeks</Label>
+                        <RadioGroupItem
+                          value="option-three"
+                          id="option-three"
+                          className="w-6 h-6"
+                        />
+                        <Label
+                          htmlFor="option-three"
+                          className="font-extrabold text-2xl"
+                        >
+                          2 Weeks
+                        </Label>
                       </div>
                     </RadioGroup>
-
                   </CardContent>
-                </OnboardignCard>
+                </OnboardingCard>
               </motion.div>
             </div>
           )}
@@ -128,7 +157,7 @@ export default function Page() {
                   },
                 }}
               >
-                <OnboardignCard
+                <OnboardingCard
                   {...stageConfig2}
                   handleNext={handleSubmit}
                   handleBack={handleBack}
@@ -141,18 +170,22 @@ export default function Page() {
                       className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                     />
                     <div className="flex items-center">
-                      <Image src={'/info.svg'} width={16} height={16} alt='info' />
+                      <Image
+                        src={"/info.svg"}
+                        width={16}
+                        height={16}
+                        alt="info"
+                      />
                       <span className="ml-1 text-foreground/50 text-base font-extrabold">
                         Please include your currency
                       </span>
                     </div>
                   </CardContent>
-                </OnboardignCard>
+                </OnboardingCard>
               </motion.div>
             </div>
-          )
-          }
-        </OnboardingLayout >
+          )}
+        </OnboardingLayout>
       )}
     </>
   );

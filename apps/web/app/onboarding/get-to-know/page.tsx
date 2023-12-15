@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { Type as t, Static } from "@sinclair/typebox";
 import { CardContent } from "components/base/Card";
-import OnboardignCard from "components/onboarding/OnboardingCard";
+import OnboardingCard from "components/onboarding/OnboardingCard";
 import { Textarea } from "components/base/Textarea";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -96,7 +96,7 @@ export default function Page() {
               },
             }}
           >
-            <OnboardignCard
+            <OnboardingCard
               {...stageConfigs[0]?.questionConfig}
               handleNext={handleNext}
               handleNextDisabled={watchedValues.likes.length === 0}
@@ -108,7 +108,7 @@ export default function Page() {
                   {...register("likes")}
                 />
               </CardContent>
-            </OnboardignCard>
+            </OnboardingCard>
           </motion.div>
         </div>
       )}
@@ -133,7 +133,7 @@ export default function Page() {
               },
             }}
           >
-            <OnboardignCard
+            <OnboardingCard
               {...stageConfigs[1]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
@@ -146,7 +146,7 @@ export default function Page() {
                   {...register("dislikes")}
                 />
               </CardContent>
-            </OnboardignCard>
+            </OnboardingCard>
           </motion.div>
         </div>
       )}
@@ -171,7 +171,7 @@ export default function Page() {
               },
             }}
           >
-            <OnboardignCard
+            <OnboardingCard
               {...stageConfigs[2]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
@@ -184,7 +184,7 @@ export default function Page() {
                   {...register("allergies")}
                 />
               </CardContent>
-            </OnboardignCard>
+            </OnboardingCard>
           </motion.div>
         </div>
       )}
@@ -209,7 +209,7 @@ export default function Page() {
               },
             }}
           >
-            <OnboardignCard
+            <OnboardingCard
               {...stageConfigs[3]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
@@ -222,7 +222,7 @@ export default function Page() {
                   {...register("dietaryPreferences")}
                 />
               </CardContent>
-            </OnboardignCard>
+            </OnboardingCard>
           </motion.div>
         </div>
       )}
@@ -247,7 +247,7 @@ export default function Page() {
               },
             }}
           >
-            <OnboardignCard
+            <OnboardingCard
               {...stageConfigs[4]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
@@ -261,7 +261,7 @@ export default function Page() {
                   {...register("cuisinePreferences")}
                 />
               </CardContent>
-            </OnboardignCard>
+            </OnboardingCard>
           </motion.div>
         </div>
       )}

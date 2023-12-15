@@ -11,7 +11,7 @@ import { Button } from "components/base/Button";
 import Image from "next/image";
 import { cn } from "lib/cn";
 
-interface OnboardignCardPropsI {
+interface OnboardingCardPropsI {
   showHeader?: boolean;
   headerImgSrc?: string;
   currStage?: number;
@@ -26,7 +26,7 @@ interface OnboardignCardPropsI {
   lastStepButton?: string;
 }
 
-export default function OnboardignCard({
+export default function OnboardingCard({
   showHeader = true,
   headerImgSrc = "bento.png",
   currStage = 1,
@@ -39,7 +39,7 @@ export default function OnboardignCard({
   children,
   lastStep,
   lastStepButton,
-}: OnboardignCardPropsI) {
+}: OnboardingCardPropsI) {
   const selectedWord = () => {
     if (lastStep && lastStepButton) {
       return lastStepButton;

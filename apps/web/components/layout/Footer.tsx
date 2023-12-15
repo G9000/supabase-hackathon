@@ -5,6 +5,10 @@ import { readUserSession } from "utils/supabase/session";
 export default async function Footer() {
   const { data } = await readUserSession();
 
+  if (!data.session) {
+    return null;
+  }
+
   const profilePicture = data.session?.user?.user_metadata?.avatar_url;
 
   return (
@@ -16,7 +20,7 @@ export default async function Footer() {
         src={profilePicture || "/logo.svg"}
         alt="profile picture"
       />
-      <form action="/auth/logout">
+      <form action="/auth/logout" method="post">
         <Button variant={"danger"}>Logout</Button>
       </form>
     </div>

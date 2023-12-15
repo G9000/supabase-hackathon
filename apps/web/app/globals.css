@@ -5,7 +5,26 @@
 textarea {
   overflow: hidden;
 }
+
 textarea {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.loader {
+  animation: loader 1s infinite linear;
+}
+
+@keyframes loader {
+  0% {
+    background-position: 200px 0px;
+  }
+
+  50% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 200px 0px;
+  }
 }

@@ -1,11 +1,15 @@
 import { PropsWithChildren } from "react";
 import OnboardingProvider from "providers/onboarding-provider";
+import OnboardingLayout from "components/onboarding/OnboardingLayout";
+import { pageConfig } from "./config";
 
 export default function Layout({ children }: PropsWithChildren<{}>) {
   return (
-    <main className="flex items-center justify-center min-h-screen bg-[#FAFAFA]">
+    <main>
       <OnboardingProvider>
-        <div className="z-10">{children}</div>
+        <div className="z-10">
+          <OnboardingLayout {...pageConfig}>{children}</OnboardingLayout>
+        </div>
       </OnboardingProvider>
     </main>
   );

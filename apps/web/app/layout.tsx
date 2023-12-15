@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { cn } from "lib/cn";
+import Footer from "components/layout/Footer";
+import Header from "components/layout/Header";
 
 const fontSans = Nunito({
   variable: "--font-sans",
@@ -24,11 +26,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen scroll-smooth bg-background font-sans antialiased",
+          "min-h-screen h-full flex flex-col items-center justify-between bg-[#FAFAFA] scroll-smooth font-sans antialiased",
           fontSans.variable
         )}
       >
-        {children}
+        <Header />
+        <main className="grow flex items-center">{children}</main>
+        {/* @ts-expect-error Server Component */}
+        <Footer />
       </body>
     </html>
   );

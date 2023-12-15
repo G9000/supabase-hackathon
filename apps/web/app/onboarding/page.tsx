@@ -7,12 +7,10 @@ import OnboardignCard from "components/onboarding/OnboardingCard";
 import { Textarea } from "components/base/Textarea";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import { useRouter } from "next/navigation";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useOnboardingContext } from "providers/onboarding-provider";
 import {
-  pageConfig,
   stageConfig1,
   stageConfig2,
   stageConfig3,
@@ -76,7 +74,7 @@ export default function Page() {
     router.push("/onboarding/review");
   };
   return (
-    <OnboardingLayout {...pageConfig}>
+    <>
       {step >= 0 && (
         <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-full">
           <motion.div
@@ -294,6 +292,6 @@ export default function Page() {
           </motion.div>
         </div>
       )}
-    </OnboardingLayout>
+    </>
   );
 }

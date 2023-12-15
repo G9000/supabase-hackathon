@@ -118,7 +118,8 @@ export default function Page() {
           Feel free to adjust further or if you have more details you’d like to
           include! If you’re ready to roll, let’s continue
         </p>
-        <Button onClick={handleNext}
+        <Button
+          onClick={handleNext}
           className="p-0 overflow-hidden border border-white/10 rounded-full"
         >
           <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">

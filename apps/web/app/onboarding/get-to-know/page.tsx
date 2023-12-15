@@ -10,7 +10,8 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useOnboardingContext } from "providers/onboarding-provider";
-import { stageConfigs } from "./config";
+import OnboardingLayout from "components/onboarding/OnboardingLayout";
+import { stageConfigs, pageConfig } from "../config";
 
 const onboardingSchema = t.Object({
   likes: t.String(),
@@ -78,7 +79,7 @@ export default function Page() {
   };
 
   return (
-    <>
+    <OnboardingLayout {...pageConfig}>
       {step >= 0 && (
         <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-10 w-full">
           <motion.div
@@ -264,6 +265,6 @@ export default function Page() {
           </motion.div>
         </div>
       )}
-    </>
+    </OnboardingLayout>
   );
 }

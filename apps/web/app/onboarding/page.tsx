@@ -62,13 +62,19 @@ export default function Page() {
     setStep((prevStep) => prevStep - 1);
   };
 
+  const isFormDataComplete = (data: SignInSchema) => {
+    return Object.values(data).every((value) => value.trim() !== "");
+  };
+
   const handleFormSubmit = (data: SignInSchema) => {
-    setLikes(data.likes);
-    setDislikes(data.dislikes);
-    setAllergies(data.allergies);
-    setDietaryPreferences(data.dietaryPreferences);
-    setCuisinePreferences(data.cuisinePreferences);
-    router.push("/onboarding/review");
+    if (isFormDataComplete(data)) {
+      setLikes(data.likes);
+      setDislikes(data.dislikes);
+      setAllergies(data.allergies);
+      setDietaryPreferences(data.dietaryPreferences);
+      setCuisinePreferences(data.cuisinePreferences);
+      router.push("/onboarding/review");
+    }
   };
 
   return (

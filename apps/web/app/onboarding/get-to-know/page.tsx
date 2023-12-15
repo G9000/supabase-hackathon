@@ -12,6 +12,8 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useOnboardingContext } from "providers/onboarding-provider";
 import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import { stageConfigs, pageConfig } from "../config";
+import { shallow } from 'zustand/shallow';
+import { useOnboardingStore } from "store/app-store";
 
 const onboardingSchema = t.Object({
   likes: t.String(),
@@ -34,6 +36,36 @@ export default function Page() {
 
   const router = useRouter();
   const [step, setStep] = useState(0);
+
+  const [
+    answer1,
+    answer2,
+    answer3,
+    answer4,
+    answer5,
+    isComplete,
+    updateAnswer1,
+    updateAnswer2,
+    updateAnswer3,
+    updateAnswer4,
+    updateAnswer5,
+    updateIsComplete,
+  ] = useOnboardingStore((state: any) => {
+    return [
+      state.answer1,
+      state.answer2,
+      state.answer3,
+      state.answer4,
+      state.answer5,
+      state.isComplete,
+      state.updateAnswer1,
+      state.updateAnswer2,
+      state.updateAnswer3,
+      state.updateAnswer4,
+      state.updateAnswer5,
+      state.updateIsComplete,
+    ];
+  }, shallow);
 
   const {
     register,
@@ -74,6 +106,7 @@ export default function Page() {
       setAllergies(data.allergies);
       setDietaryPreferences(data.dietaryPreferences);
       setCuisinePreferences(data.cuisinePreferences);
+      updateIsComplete(true);
       router.push("/onboarding/review");
     }
   };
@@ -99,13 +132,17 @@ export default function Page() {
             <OnboardingCard
               {...stageConfigs[0]?.questionConfig}
               handleNext={handleNext}
-              handleNextDisabled={watchedValues.likes.length === 0}
+              handleNextDisabled={answer1.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[0]?.textConfig}
                   {...register("likes")}
+                  onChange={(event) => {
+                    const answer1 = event.target.value;
+                    updateAnswer1(answer1);
+                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -137,13 +174,17 @@ export default function Page() {
               {...stageConfigs[1]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={watchedValues.dislikes.length === 0}
+              handleNextDisabled={answer2.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[1]?.textConfig}
                   {...register("dislikes")}
+                  onChange={(event) => {
+                    const answer2 = event.target.value;
+                    updateAnswer2(answer2);
+                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -175,13 +216,17 @@ export default function Page() {
               {...stageConfigs[2]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={watchedValues.allergies.length === 0}
+              handleNextDisabled={answer3.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[2]?.textConfig}
                   {...register("allergies")}
+                  onChange={(event) => {
+                    const answer3 = event.target.value;
+                    updateAnswer3(answer3);
+                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -213,13 +258,17 @@ export default function Page() {
               {...stageConfigs[3]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={watchedValues.dietaryPreferences.length === 0}
+              handleNextDisabled={answer4.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[3]?.textConfig}
                   {...register("dietaryPreferences")}
+                  onChange={(event) => {
+                    const answer4 = event.target.value;
+                    updateAnswer4(answer4);
+                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -251,14 +300,19 @@ export default function Page() {
               {...stageConfigs[4]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={watchedValues.cuisinePreferences.length === 0}
+              handleNextDisabled={answer5.length === 0}
               lastStep
             >
               <CardContent>
                 <Textarea
+                  value={answer5}
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[4]?.textConfig}
                   {...register("cuisinePreferences")}
+                  onChange={(event) => {
+                    const answer5 = event.target.value;
+                    updateAnswer5(answer5);
+                  }}
                 />
               </CardContent>
             </OnboardingCard>

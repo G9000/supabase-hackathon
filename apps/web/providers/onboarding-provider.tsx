@@ -13,12 +13,12 @@ import React, {
 interface OnboardingContextI {
   likes: string;
   dislikes: string;
-  allergy: string;
+  allergies: string;
   dietaryPreferences: string;
   cuisinePreferences: string;
   setLikes: Dispatch<SetStateAction<string>>;
   setDislikes: Dispatch<SetStateAction<string>>;
-  setAllergy: Dispatch<SetStateAction<string>>;
+  setAllergies: Dispatch<SetStateAction<string>>;
   setDietaryPreferences: Dispatch<SetStateAction<string>>;
   setCuisinePreferences: Dispatch<SetStateAction<string>>;
 }
@@ -26,12 +26,12 @@ interface OnboardingContextI {
 const defaultContext: OnboardingContextI = {
   likes: "",
   dislikes: "",
-  allergy: "",
+  allergies: "",
   dietaryPreferences: "",
   cuisinePreferences: "",
   setLikes: () => {},
   setDislikes: () => {},
-  setAllergy: () => {},
+  setAllergies: () => {},
   setDietaryPreferences: () => {},
   setCuisinePreferences: () => {},
 };
@@ -56,7 +56,7 @@ export default function OnboardingProvider({
 }) {
   const [likes, setLikes] = useState("");
   const [dislikes, setDislikes] = useState("");
-  const [allergy, setAllergy] = useState("");
+  const [allergies, setAllergies] = useState("");
   const [dietaryPreferences, setDietaryPreferences] = useState("");
   const [cuisinePreferences, setCuisinePreferences] = useState("");
 
@@ -64,16 +64,16 @@ export default function OnboardingProvider({
     () => ({
       likes,
       dislikes,
-      allergy,
+      allergies,
       dietaryPreferences,
       cuisinePreferences,
       setLikes,
       setDislikes,
-      setAllergy,
+      setAllergies,
       setDietaryPreferences,
       setCuisinePreferences,
     }),
-    [likes, dislikes, allergy, dietaryPreferences, cuisinePreferences]
+    [likes, dislikes, allergies, dietaryPreferences, cuisinePreferences]
   );
 
   return (

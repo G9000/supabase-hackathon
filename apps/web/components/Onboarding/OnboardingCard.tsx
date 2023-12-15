@@ -19,9 +19,11 @@ interface OnboardignCardPropsI {
   title?: string;
   titleClassName?: string;
   handleNext?: () => void;
+  handleNextDisabled?: boolean;
   handleBack?: () => void;
   children?: ReactNode;
   lastStep?: boolean;
+  lastStepButton?: string;
 }
 
 export default function OnboardignCard({
@@ -32,10 +34,22 @@ export default function OnboardignCard({
   title = "Title Here",
   titleClassName,
   handleNext,
+  handleNextDisabled = false,
   handleBack,
   children,
   lastStep,
+  lastStepButton,
 }: OnboardignCardPropsI) {
+  const selectedWord = () => {
+    if (lastStep && lastStepButton) {
+      return lastStepButton;
+    } else if (lastStep) {
+      return "Continue & Review";
+    } else {
+      return "Continue";
+    }
+  };
+
   return (
     <Card className="max-w-[325px] h-auto grid gap-4">
       {showHeader && (
@@ -56,18 +70,19 @@ export default function OnboardignCard({
         </CardHeader>
       )}
 
-      <CardContent className={cn("text-sm", titleClassName)}>
+      <CardContent className={cn("text-sm text-foreground/50", titleClassName)}>
         {title}
       </CardContent>
       {children}
       <CardFooter className="flex gap-x-2">
         <Button
           onClick={handleNext}
-          className="p-0 overflow-hidden border border-black rounded-full"
+          disabled={handleNextDisabled}
+          className="p-0 overflow-hidden border border-white/10 rounded-full"
         >
-          <span className="w-full h-full p-[1px] overflow-hidden rounded-full bg-gradient-to-b from-slate-600 to-transparent">
-            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-slate-900 to-slate-950 font-bold text-base">
-              {!lastStep ? "Continue & Review" : "Continue"}
+          <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">
+            <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-[#3c3c3c] to-foreground font-bold text-base">
+              {selectedWord()}
             </span>
           </span>
         </Button>

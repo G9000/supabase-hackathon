@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { shallow } from "zustand/shallow";
 import { useOnboardingStore } from "store/app-store";
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 import { useState } from "react";
 import { Textarea } from "components/base/Textarea";
 

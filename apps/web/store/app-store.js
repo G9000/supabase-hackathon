@@ -8,6 +8,8 @@ const onboardingStore = (set) => ({
     answer4: '',
     answer5: '',
     isComplete: false,
+    howManyDays: '',
+    budget: '',
 
     updateAnswer1: (answer1) => set({ answer1 }),
     updateAnswer2: (answer2) => set({ answer2 }),
@@ -15,6 +17,8 @@ const onboardingStore = (set) => ({
     updateAnswer4: (answer4) => set({ answer4 }),
     updateAnswer5: (answer5) => set({ answer5 }),
     updateIsComplete: (isComplete) => set({ isComplete }),
+    updateHowManyDays: (howManyDays) => set({ howManyDays }),
+    updateBudget: (budget) => set({ budget }),
 });
 
 export const useOnboardingStore = create(

@@ -10,10 +10,12 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useOnboardingContext } from "providers/onboarding-provider";
-import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import { stageConfigs, pageConfig } from "../config";
 import { shallow } from 'zustand/shallow';
 import { useOnboardingStore } from "store/app-store";
+import dynamic from 'next/dynamic';
+
+const OnboardingLayout = dynamic(() => import('components/onboarding/OnboardingLayout'), { ssr: false })
 
 const onboardingSchema = t.Object({
   likes: t.String(),
@@ -70,7 +72,6 @@ export default function Page() {
   const {
     register,
     handleSubmit: validateForm,
-    watch,
   } = useForm<SignInSchema>({
     resolver: typeboxResolver(onboardingSchema),
     defaultValues: {
@@ -82,10 +83,9 @@ export default function Page() {
     },
   });
 
-  const watchedValues = watch();
 
   const handleNext = () => {
-    if (step === stageConfigs.length - 1) {
+    if (step === 1) {
       validateForm(handleFormSubmit)();
     } else {
       setStep((prevStep) => prevStep + 1);
@@ -134,6 +134,7 @@ export default function Page() {
               handleNext={handleNext}
               handleNextDisabled={answer1.length === 0}
             >
+              {answer1.length}
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"

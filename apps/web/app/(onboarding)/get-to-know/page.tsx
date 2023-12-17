@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { createClient } from "utils/supabase/client";
 import { Type as t, Static } from "@sinclair/typebox";
 import { CardContent } from "components/base/Card";
 import OnboardingCard from "components/onboarding/OnboardingCard";
@@ -29,6 +30,7 @@ const onboardingSchema = t.Object({
 type OnboardingSchema = Static<typeof onboardingSchema>;
 
 export default function Page() {
+  const supabase = createClient();
   const router = useRouter();
   const [step, setStep] = useState(0);
 
@@ -86,9 +88,22 @@ export default function Page() {
       updateAllergies(data.allergies);
       updateDietaryPreferences(data.dietaryPreferences);
       updateCuisinePreferences(data.cuisinePreferences);
-      router.push("/onboarding/review");
+      router.push("/onboarding-reviews");
     }
   };
+
+  // DIRTY WAY. AS LONG IT WORKS FOR NOW
+  async function checkUser() {
+    let { data: users } = await supabase
+      .from("users")
+      .select("done_onboarding")
+      .single();
+
+    if (users?.done_onboarding) {
+      router.push("/");
+    }
+  }
+  checkUser();
 
   return (
     <OnboardingLayout {...pageConfig}>

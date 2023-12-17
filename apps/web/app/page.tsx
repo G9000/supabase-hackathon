@@ -1,28 +1,23 @@
-"use client";
+import { createClient } from "utils/supabase/server";
+import { cookies } from "next/headers";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabsae = createClient(cookieStore);
+  let { data: users, error } = await supabsae
+    .from("users")
+    .select("done_onboarding")
+    .single();
 
-import type { Database } from "types";
+  // console.log("users", users);
 
-export default function Page(): JSX.Element {
-  const supabase = createClientComponentClient<Database>();
-
-  async function handleClick() {
-    // let { data: users, error } = await supabase
-    //   .from("users")
-    //   .select(`*, diet_preferences (*)`);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    console.log(user);
-  }
+  // if (!users?.done_onboarding) {
+  //   router.push("/get-to-know");
+  // }
 
   return (
     <main>
-      <div>
-        <button onClick={handleClick}>Test</button>
-      </div>
+      <div>Hai</div>
     </main>
   );
 }

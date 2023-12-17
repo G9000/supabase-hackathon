@@ -36,7 +36,7 @@ export default async function Page() {
   console.log("users", JSON.stringify(diet_preferences));
 
   return (
-    <div className="flex flex-col md:flex-row items-center overflow-x-auto gap-4 w-screen my-40 p-4 md:px-14">
+    <div className="flex flex-col md:flex-row items-center xl:justify-center overflow-x-auto gap-4 w-screen my-40 p-4 md:px-14 scrollbar-hide">
       <div className="flex flex-col flex-shrink-0 items-start md:w-[325px] border shadow-smooth border-[#08080808] rounded-3xl p-6 bg-white">
         <Image src={'/icons/mascot.svg'} width={64} height={65} alt='logo' />
         <h1 className="text-2xl font-extrabold leading-6 max-w-xs mt-4 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">

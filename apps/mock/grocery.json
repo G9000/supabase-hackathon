@@ -1,52 +1,5 @@
 {
-    "meal_plan": [
-        {
-            "id": 1,
-            "date": "2023-12-25",
-            "menus": [
-                {
-                    "id": 1,
-                    "meal_name": "Chicken Teriyaki with Rice",
-                    "mealtime_type": "Breakfast",
-                    "cuisine": "Asian"
-                },
-                {
-                    "id": 2,
-                    "meal_name": "Vegetarian Enchiladas",
-                    "mealtime_type": "Lunch",
-                    "cuisine": "Mexican"
-                },
-                {
-                    "id": 3,
-                    "meal_name": "Nasi goreng",
-                    "mealtime_type": "Dinner",
-                    "cuisine": "Indonesian"
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "date": "2023-12-26",
-            "menus": [
-                {
-                    "id": 1,
-                    "meal_name": "Chicken Teriyaki with Rice",
-                    "mealtime_type": "Breakfast",
-                    "cuisine": "Asian"
-                },
-                {
-                    "id": 2,
-                    "meal_name": "Vegetarian Enchiladas",
-                    "mealtime_type": "Lunch",
-                    "cuisine": "Mexican"
-                },
-                {
-                    "id": 3,
-                    "meal_name": "Lentils with rice",
-                    "mealtime_type": "Dinner",
-                    "cuisine": "Indian"
-                }
-            ]
-        }
-    ]
-}
+    "meal_name": "Toast bread",
+    "mealtime_type": "Breakfast",
+    "cuisine": "Western",
+},

@@ -8,10 +8,8 @@ const openai = new OpenAI({
 
 export const runtime = "edge";
 
-const assistantID = "asst_Mcer6SJdRZ1vgC0kpGh4d0Rd";
-
 export async function POST(req: Request) {
-  const { prompt } = await req.json();
+  const { prompt, assistantId } = await req.json();
 
   try {
     const thread = await openai.beta.threads.create();
@@ -22,7 +20,7 @@ export async function POST(req: Request) {
     });
 
     const run = await openai.beta.threads.runs.create(thread.id, {
-      assistant_id: assistantID,
+      assistant_id: assistantId,
     });
 
     let checkStatus;

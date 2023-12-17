@@ -80,7 +80,7 @@ export interface MealItemI {
   menus: MenuI[];
 }
 export interface MealPlanI {
-  mealPlans?: MealItemI[];
+  mealPlans: MealItemI[];
   updateMealPlans: (mealPlans: MealItemI[] | undefined) => void;
 }
 

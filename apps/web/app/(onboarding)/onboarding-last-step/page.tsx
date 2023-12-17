@@ -116,6 +116,7 @@ export default function Page() {
         method: "POST",
         body: JSON.stringify({
           prompt: JSON.stringify(payload),
+          assistantId: "asst_Mcer6SJdRZ1vgC0kpGh4d0Rd",
         }),
       });
 

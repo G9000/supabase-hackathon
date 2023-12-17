@@ -85,11 +85,13 @@ export default function Page() {
 
     const icon = newData[0]?.recipe[0]?.shopping_list[0]?.icon;
     const items = newData[0]?.recipe[0]?.shopping_list[0]?.items;
+    const cookingTime = newData[0]?.recipe[0]?.recipe?.cooking_time;
+    const instructions = newData[0]?.recipe[0]?.recipe?.instructions;
 
     return (
 
         <OnboardingLayout {...config}>
-            <div className="my-5 relative" >
+            <div className="my-5 relative">
                 <Image src={'/icons/noodle.png'} width={375} height={184} alt="menu image" />
             </div>
             <Tabs defaultValue={'tab-1'} className="w-full flex flex-col">
@@ -148,7 +150,7 @@ export default function Page() {
                 </TabsContent>
 
 
-                <TabsContent value={`tab-2`}>
+                <TabsContent value={`tab-2`} className="max-w-[375px]">
                     <div className="mb-20 flex flex-col items-center">
                         <div className="w-full">
                             <Collapsible className="w-full">
@@ -165,8 +167,23 @@ export default function Page() {
                                         </CollapsibleTrigger>
                                     </div>
 
+                                    <div className="flex items-center justify-between w-full my-4">
+                                        <div>
+                                            <div className="text-base font-bold">Cooking instructions</div>
+                                            <div className="text-foreground/50">{instructions?.length} Steps</div>
+                                        </div>
+                                        <div className="border border-foreground/10 font-bold rounded-full px-4 py-3">{cookingTime}</div>
+                                    </div>
+
                                     <CollapsibleContent className="w-full">
-                                        Ciluk baa
+                                        {instructions?.map((item, index) => (
+                                            <div key={index}>
+                                                <div className="border border-dashed w-full h-[1px]" />
+                                                <div className="font-bold my-2">Step{item.step}</div>
+                                                <div className="text-foreground/50">{item.description}</div>
+                                            </div>
+
+                                        ))}
                                     </CollapsibleContent>
                                 </div>
                             </Collapsible>

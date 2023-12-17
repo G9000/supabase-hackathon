@@ -210,7 +210,7 @@ export default function Page() {
             </TabsList>
             {mealData?.map((item, index) => (
               <TabsContent key={index} value={`tab-${item.id}`}>
-                <div className="w-full flex flex-col items-center gap-2 z-10">
+                <div className="w-full flex flex-col items-center gap-2 z-10 bg-white rounded-3xl p-4 shadow-smooth">
                   {item.menus.map((menu, menuIndex) => (
                     <MeaItem
                       mealIndex={menuIndex}

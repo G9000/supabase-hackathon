@@ -11,137 +11,57 @@ const config = {
     title: "Chinese Deep-Fried Chicken Youlinji",
 };
 
-const data = [
+const newData = [
     {
-        id: 1,
-        date: 9,
-        menus: [
+        "recipe": [
             {
-                id: 1,
-                title: 'Breakfast',
-                menu: 'Tamagoyaki 1',
-                ingredients: [
+                "id": 1,
+                "name": "Baked Salmon",
+                "is_done": false,
+                "recipe": {
+                    "instructions": [
+                        {
+                            "id": 1,
+                            "step": 1,
+                            "description": "Preheat oven to 400 degrees F (200 degrees C). Line a shallow baking pan with aluminum foil."
+                        },
+                    ],
+                    "cooking_time": "20 mins"
+                },
+                "shopping_list": [
                     {
-                        type: "Pantry Essentials",
-                        content: [
+                        "id": 1,
+                        "icon": "Pantry Essentials",
+                        "is_done": false,
+                        "items": [
                             {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
+                                "id": 1,
+                                "name": "Rice",
+                                "quantity": 1,
+                                "price_per_unit": 1.99,
+                                "unit": "kg",
+                                "is_done": false
                             },
                             {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
+                                "id": 2,
+                                "name": "Eggs",
+                                "quantity": 12,
+                                "price_per_unit": 1.99,
+                                "unit": "pcs",
+                                "is_done": false
                             },
                             {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
+                                "id": 3,
+                                "name": "Vinegar",
+                                "quantity": 750,
+                                "price_per_unit": 1.99,
+                                "unit": "ml",
+                                "is_done": false
                             }
                         ]
-                    },
+                    }
                 ]
-            },
-            {
-                id: 2,
-                title: 'Dinner',
-                menu: 'Tamagoyaki 1',
-                ingredients: [
-                    {
-                        type: "Vegetables & Fruits",
-                        content: [
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            }
-                        ]
-                    },
-                ]
-            },
-        ]
-    },
-    {
-        id: 2,
-        date: 10,
-        menus: [
-            {
-                id: 1,
-                title: 'Breakfast',
-                menu: 'Tamagoyaki 2',
-                ingredients: [
-                    {
-                        type: "Vegetables & Fruits",
-                        content: [
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            }
-                        ]
-                    },
-                ]
-            },
-            {
-                id: 2,
-                title: 'Dinner',
-                menu: 'Tamagoyaki 1',
-                ingredients: [
-                    {
-                        type: "Pantry Essentials",
-                        content: [
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            },
-                            {
-                                id: 1,
-                                name: 'Eggs',
-                                total: "1pcs",
-                                price: "10 SGD",
-                            }
-                        ]
-                    },
-                ]
-            },
+            }
         ]
     }
 ]
@@ -163,9 +83,8 @@ export default function Page() {
         return '/icons/pantry-essentials.png';
     }
 
-    const menusData = data[0]?.menus;
-
-    const ingredientData = data[0]?.menus[1]?.ingredients[0];
+    const icon = newData[0]?.recipe[0]?.shopping_list[0]?.icon;
+    const items = newData[0]?.recipe[0]?.shopping_list[0]?.items;
 
     return (
 
@@ -185,52 +104,49 @@ export default function Page() {
 
                 <TabsContent value={`tab-1`}>
                     <div className="mb-20 flex flex-col items-center">
-                        {menusData && menusData.map((item, index) => (
-                            <div key={index} className="w-full">
-                                {item.ingredients.map((ing, index) => (
-                                    <Collapsible className="w-full" key={index}>
-                                        <div className="relative flex flex-col items-start border bg-white rounded-3xl px-6 pt-7 w-full shadow-smooth mb-4">
-                                            <div className="flex items-center justify-between w-full">
-                                                <Image src={selectedIcon(ing.type)} width={48} height={48} alt="spending" />
+                        <Collapsible className="w-full">
+                            <div className="relative flex flex-col items-start border bg-white rounded-3xl px-6 pt-7 w-full shadow-smooth mb-4">
+                                <div className="flex items-center justify-between w-full">
+                                    {icon && (
+                                        <Image src={selectedIcon(icon)} width={48} height={48} alt="spending" />
+                                    )}
 
-                                                <CollapsibleTrigger asChild className="data-[state=open]:rotate-180 transition-all">
-                                                    <Button
-                                                        variant={"outline"} className="w-10 h-10 p-0 ml-2"
-                                                    >
-                                                        <Image src={'/icons/chevron-down.svg'} width={16} height={16} alt='chevron icon' />
-                                                    </Button>
-                                                </CollapsibleTrigger>
-                                            </div>
-                                            <div className="flex items-center justify-between w-full">
+                                    <CollapsibleTrigger asChild className="data-[state=open]:rotate-180 transition-all">
+                                        <Button
+                                            variant={"outline"} className="w-10 h-10 p-0 ml-2"
+                                        >
+                                            <Image src={'/icons/chevron-down.svg'} width={16} height={16} alt='chevron icon' />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                </div>
+                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex flex-col items-start">
+                                        <div className="text-base font-bold mt-4 mb-2 text-foreground/80">{icon}</div>
+                                        <div className="text-sm text-foreground/50 mb-4">{items?.length} Items</div>
+                                    </div>
+                                </div>
+
+                                {items && items.map((item, index) => (
+                                    <CollapsibleContent className="w-full" key={index}>
+                                        <>
+                                            <div className="border border-dashed w-full h-[1px]" />
+                                            <div className="my-4 flex items-center justify-between w-full">
                                                 <div className="flex flex-col items-start">
-                                                    <div className="text-base font-bold mt-4 mb-2 text-foreground/80">{ing.type}</div>
-                                                    <div className="text-sm text-foreground/50 mb-4">{ing.content.length} Items</div>
+                                                    <div className="text-base font-bold my-2 text-foreground/80">{item.name}</div>
                                                 </div>
+                                                <div className="flex items-center">
+                                                    <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-3 h-10 flex justify-center items-center font-bold">{item.quantity}{item.unit}</div>
+                                                </div>
+
                                             </div>
-
-                                            {ingredientData && ingredientData.content.map((ingredient, index) => (
-                                                <CollapsibleContent className="w-full" key={index}>
-                                                    <>
-                                                        <div className="border border-dashed w-full h-[1px]" />
-                                                        <div key={index} className="my-4 flex items-center justify-between w-full">
-                                                            <div className="flex flex-col items-start">
-                                                                <div className="text-base font-bold my-2 text-foreground/80">{ingredient.name}</div>
-                                                            </div>
-                                                            <div className="flex items-center">
-                                                                <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-3 h-10 flex justify-center items-center font-bold">{ingredient.total}</div>
-                                                            </div>
-
-                                                        </div>
-                                                    </>
-                                                </CollapsibleContent>
-                                            ))}
-                                        </div>
-                                    </Collapsible>
+                                        </>
+                                    </CollapsibleContent>
                                 ))}
                             </div>
-                        ))}
+                        </Collapsible>
                     </div>
                 </TabsContent>
+
 
                 <TabsContent value={`tab-2`}>
                     <div className="mb-20 flex flex-col items-center">

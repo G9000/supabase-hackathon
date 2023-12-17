@@ -1,16 +1,33 @@
 "use client";
 
+import { useForm } from "react-hook-form";
 import { Button } from "components/base/Button";
+import { Type as t, Static } from "@sinclair/typebox";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { shallow } from "zustand/shallow";
 import { useOnboardingStore } from "store/app-store";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import TextareaAutosize from 'react-textarea-autosize';
 import { cn } from "lib/cn";
+import { useCompletion } from "ai/react";
+import { createClient } from "utils/supabase/client";
 
-const OnboardingLayout = dynamic(() => import('components/onboarding/OnboardingLayout'), { ssr: false })
+const OnboardingLayout = dynamic(
+  () => import("components/onboarding/OnboardingLayout"),
+  { ssr: false }
+);
+
+const onboardingSchema = t.Object({
+  likes: t.String(),
+  dislikes: t.String(),
+  allergies: t.String(),
+  dietaryPreferences: t.String(),
+  cuisinePreferences: t.String(),
+});
+
+type OnboardingSchema = Static<typeof onboardingSchema>;
 
 const config = {
   label: "Review preference",
@@ -28,6 +45,7 @@ interface EditableTextState {
 
 export default function Page() {
   const router = useRouter();
+  const supabase = createClient();
 
   const [editableText, setEditableText] = useState<EditableTextState>({
     editableText1: false,
@@ -52,35 +70,88 @@ export default function Page() {
     });
   };
 
-  const [
-    answer1,
-    answer2,
-    answer3,
-    answer4,
-    answer5,
-    updateAnswer1,
-    updateAnswer2,
-    updateAnswer3,
-    updateAnswer4,
-    updateAnswer5,
-  ] = useOnboardingStore((state: any) => {
-    return [
-      state.answer1,
-      state.answer2,
-      state.answer3,
-      state.answer4,
-      state.answer5,
-      state.updateAnswer1,
-      state.updateAnswer2,
-      state.updateAnswer3,
-      state.updateAnswer4,
-      state.updateAnswer5,
-    ];
-  }, shallow);
+  const {
+    likes,
+    dislikes,
+    allergies,
+    dietary_preferences,
+    cuisine_preferences,
+    filteredUserPreferencesData,
+    isDietaryDataDone,
+    updateLikes,
+    updateDislikes,
+    updateAllergies,
+    updateDietaryPreferences,
+    updateCuisinePreferences,
+    updateFilteredUserPreferencesData,
+    updateIsDietaryDataDone,
+  } = useOnboardingStore();
 
-  const handleNext = () => {
-    router.push("/onboarding/last-step");
+  const {
+    register,
+    handleSubmit: validateForm,
+    watch,
+  } = useForm<OnboardingSchema>({
+    resolver: typeboxResolver(onboardingSchema),
+    defaultValues: {
+      likes: likes || "",
+      dislikes: dislikes || "",
+      allergies: allergies || "",
+      dietaryPreferences: dietary_preferences || "",
+      cuisinePreferences: cuisine_preferences || "",
+    },
+  });
+
+  const formData = watch();
+
+  const {
+    complete: sortingData,
+    // isLoading,
+  } = useCompletion({
+    api: "/api/generate",
+  });
+
+  const handleNext = async () => {
+    try {
+      const transformedData = {
+        likes,
+        dislikes,
+        allergies,
+        dietary_preferences,
+        cuisine_preferences,
+      };
+
+      const prompt = `${JSON.stringify(
+        transformedData
+      )}. Parse the answer and only give me the relevant keyword. Remove all punctuation marks, such as full stops and commas. Correct typographical errors and convert everything to lowercase. If the list contains verbs, remove them. Create a JSON object with fields like likes, dislikes, allergies, dietary preferences, and cuisine preferences. Make sure the answer will always be an array, even with one value.`;
+
+      if (!filteredUserPreferencesData || !isDietaryDataDone) {
+        const res = await sortingData(prompt);
+        // @ts-ignore
+        const convertDataResponse = JSON.parse(res);
+        updateFilteredUserPreferencesData(convertDataResponse);
+        updateIsDietaryDataDone(true);
+      }
+
+      const { data, error } = await supabase
+        .from("diet_preferences")
+        .upsert({ ...filteredUserPreferencesData }, { onConflict: "user_id" });
+
+      if (error) {
+        console.error("Error in upsert operation:", error);
+      } else {
+        console.log("Upsert operation successful:", data);
+      }
+
+      router.push("/onboarding-last-step");
+    } catch (error: any) {
+      console.error("An error occurred:", error);
+    }
   };
+
+  function handleFormChange(prev: string | undefined, next: string) {
+    updateIsDietaryDataDone(prev === next);
+  }
 
   return (
     <OnboardingLayout {...config}>
@@ -89,20 +160,21 @@ export default function Page() {
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/bento.png"} alt="icon" height={48} width={48} />
             <div
-              onClick={() => makeEditable('editableText1')}
-              className="cursor-pointer px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
-              {editableText.editableText1 ? 'Done' : 'Edit'}
+              onClick={() => {
+                makeEditable("editableText1");
+                updateLikes(formData.likes);
+                handleFormChange(likes, formData.likes);
+              }}
+              className="cursor-pointer px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base"
+            >
+              {editableText.editableText1 ? "Done" : "Edit"}
             </div>
           </div>
           <div className={cn({ 'opacity-50': !editableText.editableText1 })}>
             <div className="mt-3 mb-2 text-foreground/50">You crave for</div>
             <TextareaAutosize
-              value={answer1}
               className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
-              onChange={(event) => {
-                const answer1 = event.target.value;
-                updateAnswer1(answer1);
-              }}
+              {...register("likes")}
               disabled={!editableText.editableText1}
             />
           </div>
@@ -117,23 +189,24 @@ export default function Page() {
               width={48}
             />
             <div
-              onClick={() => makeEditable('editableText2')}
-              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
-              {editableText.editableText2 ? 'Done' : 'Edit'}
+              onClick={() => {
+                makeEditable("editableText2");
+                updateDislikes(formData.dislikes);
+                handleFormChange(dislikes, formData.dislikes);
+              }}
+              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base"
+            >
+              {editableText.editableText2 ? "Done" : "Edit"}
             </div>
           </div>
 
           <div className={cn({ 'opacity-50': !editableText.editableText2 })}>
             <div className="mt-3 mb-2 text-foreground/50">You don’t likes</div>
             <TextareaAutosize
-              value={answer2}
               className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
-              onChange={(event) => {
-                const answer2 = event.target.value;
-                updateAnswer2(answer2);
-              }}
+              {...register("dislikes")}
               disabled={!editableText.editableText2}
-            />
+             />
           </div>
         </div>
 
@@ -141,21 +214,22 @@ export default function Page() {
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/sick.png"} alt="icon" height={48} width={48} />
             <div
-              onClick={() => makeEditable('editableText3')}
-              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
-              {editableText.editableText3 ? 'Done' : 'Edit'}
+              onClick={() => {
+                makeEditable("editableText3");
+                updateAllergies(formData.allergies);
+                handleFormChange(allergies, formData.allergies);
+              }}
+              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base"
+            >
+              {editableText.editableText3 ? "Done" : "Edit"}
             </div>
           </div>
 
           <div className={cn({ 'opacity-50': !editableText.editableText3 })}>
             <div className="mt-3 mb-2 text-foreground/50">You’re allergic to</div>
             <TextareaAutosize
-              value={answer3}
               className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
-              onChange={(event) => {
-                const answer3 = event.target.value;
-                updateAnswer3(answer3);
-              }}
+              {...register("allergies")}
               disabled={!editableText.editableText3}
             />
           </div>
@@ -170,9 +244,17 @@ export default function Page() {
               width={48}
             />
             <div
-              onClick={() => makeEditable('editableText4')}
-              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
-              {editableText.editableText4 ? 'Done' : 'Edit'}
+              onClick={() => {
+                makeEditable("editableText4");
+                updateDietaryPreferences(formData.dietaryPreferences);
+                handleFormChange(
+                  dietary_preferences,
+                  formData.dietaryPreferences
+                );
+              }}
+              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base"
+            >
+              {editableText.editableText4 ? "Done" : "Edit"}
             </div>
           </div>
 
@@ -181,12 +263,8 @@ export default function Page() {
               Your diet or restrictions
             </div>
             <TextareaAutosize
-              value={answer4}
               className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
-              onChange={(event) => {
-                const answer4 = event.target.value;
-                updateAnswer4(answer4);
-              }}
+              {...register("dietaryPreferences")}
               disabled={!editableText.editableText4}
             />
           </div>
@@ -196,9 +274,17 @@ export default function Page() {
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/happy.png"} alt="icon" height={48} width={48} />
             <div
-              onClick={() => makeEditable('editableText5')}
-              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base">
-              {editableText.editableText5 ? 'Done' : 'Edit'}
+              onClick={() => {
+                makeEditable("editableText5");
+                updateCuisinePreferences(formData.cuisinePreferences);
+                handleFormChange(
+                  cuisine_preferences,
+                  formData.cuisinePreferences
+                );
+              }}
+              className="px-4 py-1 bg-foreground/5 text-foreground/60 rounded-full font-bold text-base"
+            >
+              {editableText.editableText5 ? "Done" : "Edit"}
             </div>
           </div>
 
@@ -207,12 +293,8 @@ export default function Page() {
               Your cuisine preference
             </div>
             <TextareaAutosize
-              value={answer5}
               className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
-              onChange={(event) => {
-                const answer5 = event.target.value;
-                updateAnswer5(answer5);
-              }}
+              {...register("cuisinePreferences")}
               disabled={!editableText.editableText5}
             />
           </div>

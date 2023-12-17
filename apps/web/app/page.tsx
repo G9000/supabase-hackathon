@@ -1,10 +1,9 @@
-"use client";
+import { createClient } from "utils/supabase/server";
+import { cookies } from "next/headers";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button } from "components/base/Button";
 import Image from "next/image";
-
-import type { Database } from "types";
 
 const data = [
   {
@@ -27,19 +26,14 @@ const data = [
   }
 ]
 
-export default function Page(): JSX.Element {
-  const supabase = createClientComponentClient<Database>();
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  let { data: diet_preferences, error } = await supabase
+    .from("diet_preferences")
+    .select("*");
 
-  async function handleClick() {
-    // let { data: users, error } = await supabase
-    //   .from("users")
-    //   .select(`*, diet_preferences (*)`);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    console.log(user);
-  }
+  console.log("users", JSON.stringify(diet_preferences));
 
   return (
     <div className="flex flex-col md:flex-row items-center overflow-x-auto gap-4 w-screen my-40 p-4 md:px-14">
@@ -50,7 +44,6 @@ export default function Page(): JSX.Element {
         </h1>
         <p className="text-sm text-foreground/50 leading-5 mt-3 mb-4">Get meal planning recommendation based on your preferences and schedule it the way you want</p>
         <Button
-          onClick={handleClick}
           className="p-0 overflow-hidden border border-white/10 rounded-full"
         >
           <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { createClient } from "utils/supabase/client";
 import { Type as t, Static } from "@sinclair/typebox";
 import { CardContent } from "components/base/Card";
 import OnboardingCard from "components/onboarding/OnboardingCard";
@@ -9,13 +10,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { useOnboardingContext } from "providers/onboarding-provider";
 import { stageConfigs, pageConfig } from "../config";
-import { shallow } from 'zustand/shallow';
 import { useOnboardingStore } from "store/app-store";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const OnboardingLayout = dynamic(() => import('components/onboarding/OnboardingLayout'), { ssr: false })
+const OnboardingLayout = dynamic(
+  () => import("components/onboarding/OnboardingLayout"),
+  { ssr: false }
+);
 
 const onboardingSchema = t.Object({
   likes: t.String(),
@@ -25,67 +27,46 @@ const onboardingSchema = t.Object({
   cuisinePreferences: t.String(),
 });
 
-type SignInSchema = Static<typeof onboardingSchema>;
+type OnboardingSchema = Static<typeof onboardingSchema>;
 
 export default function Page() {
-  const {
-    setLikes,
-    setDislikes,
-    setAllergies,
-    setDietaryPreferences,
-    setCuisinePreferences,
-  } = useOnboardingContext();
-
+  const supabase = createClient();
   const router = useRouter();
   const [step, setStep] = useState(0);
 
-  const [
-    answer1,
-    answer2,
-    answer3,
-    answer4,
-    answer5,
-    isComplete,
-    updateAnswer1,
-    updateAnswer2,
-    updateAnswer3,
-    updateAnswer4,
-    updateAnswer5,
-    updateIsComplete,
-  ] = useOnboardingStore((state: any) => {
-    return [
-      state.answer1,
-      state.answer2,
-      state.answer3,
-      state.answer4,
-      state.answer5,
-      state.isComplete,
-      state.updateAnswer1,
-      state.updateAnswer2,
-      state.updateAnswer3,
-      state.updateAnswer4,
-      state.updateAnswer5,
-      state.updateIsComplete,
-    ];
-  }, shallow);
+  const {
+    likes,
+    dislikes,
+    allergies,
+    dietary_preferences,
+    cuisine_preferences,
+    updateLikes,
+    updateDislikes,
+    updateAllergies,
+    updateDietaryPreferences,
+    updateCuisinePreferences,
+    updateIsDietaryDataDone,
+  } = useOnboardingStore();
 
   const {
     register,
     handleSubmit: validateForm,
-  } = useForm<SignInSchema>({
+    watch,
+  } = useForm<OnboardingSchema>({
     resolver: typeboxResolver(onboardingSchema),
     defaultValues: {
-      likes: "",
-      dislikes: "",
-      allergies: "",
-      dietaryPreferences: "",
-      cuisinePreferences: "",
+      likes: likes || "",
+      dislikes: dislikes || "",
+      allergies: allergies || "",
+      dietaryPreferences: dietary_preferences || "",
+      cuisinePreferences: cuisine_preferences || "",
     },
   });
 
+  const formData = watch();
 
   const handleNext = () => {
-    if (step === 1) {
+    if (step === 4) {
       validateForm(handleFormSubmit)();
     } else {
       setStep((prevStep) => prevStep + 1);
@@ -95,21 +76,34 @@ export default function Page() {
     setStep((prevStep) => prevStep - 1);
   };
 
-  const isFormDataComplete = (data: SignInSchema) => {
+  const isFormDataComplete = (data: OnboardingSchema) => {
     return Object.values(data).every((value) => value.trim() !== "");
   };
 
-  const handleFormSubmit = (data: SignInSchema) => {
+  const handleFormSubmit = (data: OnboardingSchema) => {
+    updateIsDietaryDataDone(false);
     if (isFormDataComplete(data)) {
-      setLikes(data.likes);
-      setDislikes(data.dislikes);
-      setAllergies(data.allergies);
-      setDietaryPreferences(data.dietaryPreferences);
-      setCuisinePreferences(data.cuisinePreferences);
-      updateIsComplete(true);
-      router.push("/onboarding/review");
+      updateLikes(data.likes);
+      updateDislikes(data.dislikes);
+      updateAllergies(data.allergies);
+      updateDietaryPreferences(data.dietaryPreferences);
+      updateCuisinePreferences(data.cuisinePreferences);
+      router.push("/onboarding-review");
     }
   };
+
+  // DIRTY WAY. AS LONG IT WORKS FOR NOW
+  async function checkUser() {
+    let { data: users } = await supabase
+      .from("users")
+      .select("done_onboarding")
+      .single();
+
+    if (users?.done_onboarding) {
+      router.push("/");
+    }
+  }
+  checkUser();
 
   return (
     <OnboardingLayout {...pageConfig}>
@@ -132,17 +126,13 @@ export default function Page() {
             <OnboardingCard
               {...stageConfigs[0]?.questionConfig}
               handleNext={handleNext}
-              handleNextDisabled={answer1.length === 0}
+              handleNextDisabled={formData.likes.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[0]?.textConfig}
                   {...register("likes")}
-                  onChange={(event) => {
-                    const answer1 = event.target.value;
-                    updateAnswer1(answer1);
-                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -174,17 +164,13 @@ export default function Page() {
               {...stageConfigs[1]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={answer2.length === 0}
+              handleNextDisabled={formData.dislikes.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[1]?.textConfig}
                   {...register("dislikes")}
-                  onChange={(event) => {
-                    const answer2 = event.target.value;
-                    updateAnswer2(answer2);
-                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -216,17 +202,13 @@ export default function Page() {
               {...stageConfigs[2]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={answer3.length === 0}
+              handleNextDisabled={formData.allergies.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[2]?.textConfig}
                   {...register("allergies")}
-                  onChange={(event) => {
-                    const answer3 = event.target.value;
-                    updateAnswer3(answer3);
-                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -258,17 +240,13 @@ export default function Page() {
               {...stageConfigs[3]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={answer4.length === 0}
+              handleNextDisabled={formData.dietaryPreferences.length === 0}
             >
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[3]?.textConfig}
                   {...register("dietaryPreferences")}
-                  onChange={(event) => {
-                    const answer4 = event.target.value;
-                    updateAnswer4(answer4);
-                  }}
                 />
               </CardContent>
             </OnboardingCard>
@@ -300,19 +278,14 @@ export default function Page() {
               {...stageConfigs[4]?.questionConfig}
               handleNext={handleNext}
               handleBack={handleBack}
-              handleNextDisabled={answer5.length === 0}
+              handleNextDisabled={formData.cuisinePreferences.length === 0}
               lastStep
             >
               <CardContent>
                 <Textarea
-                  value={answer5}
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"
                   {...stageConfigs[4]?.textConfig}
                   {...register("cuisinePreferences")}
-                  onChange={(event) => {
-                    const answer5 = event.target.value;
-                    updateAnswer5(answer5);
-                  }}
                 />
               </CardContent>
             </OnboardingCard>

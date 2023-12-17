@@ -1,11 +1,31 @@
-"use client";
+import { createClient } from "utils/supabase/server";
+import { cookies } from "next/headers";
 
+<<<<<<< HEAD
+export default async function Page() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  let { data: diet_preferences, error } = await supabase
+    .from("diet_preferences")
+    .select("*");
+=======
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button } from "components/base/Button";
 import Image from "next/image";
+>>>>>>> onboarding/review
 
-import type { Database } from "types";
+  console.log("users", JSON.stringify(diet_preferences));
 
+<<<<<<< HEAD
+  // if (!users?.done_onboarding) {
+  //   router.push("/get-to-know");
+  // }
+
+  return (
+    <main>
+      <div>Hai</div>
+    </main>
+=======
 const data = [
   {
     id: 1,
@@ -70,5 +90,6 @@ export default function Page(): JSX.Element {
         </div>
       ))}
     </div>
+>>>>>>> onboarding/review
   );
 }

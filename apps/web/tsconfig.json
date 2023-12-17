@@ -8,7 +8,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "providers/*": ["app/providers/*"],
+      "providers/*": ["providers/*"],
       "components/*": ["components/*"],
       "store/*": ["store/*"],
       "type/*": ["type/*"],

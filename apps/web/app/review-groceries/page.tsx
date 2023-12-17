@@ -95,7 +95,7 @@ export default function Page() {
       {isLoading && ComposingRecipe()}
       {!isLoading && (
         <div className="relative flex flex-col items-center text-center max-w-sm">
-          <div className="mb-20">
+          <div className="mb-20 flex flex-col items-center">
             <h1 className="text-2xl font-extrabold leading-6 max-w-xs mt-4 text-center bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">Awesome! Now here’s your shoping list</h1>
             <p className="text-base text-foreground/50 my-4">Let’s check the your inventory and this list. You can reduce or remove groceries if you already had it</p>
 
@@ -129,12 +129,12 @@ export default function Page() {
                     <Button
                       variant={"outline"} className="w-10 h-10 p-0 ml-2"
                     >
-                      <Image src={'/icons/minus.svg'} width={16} height={16} alt='more icon' />
+                      <Image src={'/icons/minus.svg'} width={16} height={16} alt='minus icon' />
                     </Button>
                     <Button
                       variant={"outline"} className="w-10 h-10 p-0 ml-2"
                     >
-                      <Image src={'/icons/plus.svg'} width={16} height={16} alt='more icon' />
+                      <Image src={'/icons/plus.svg'} width={16} height={16} alt='plus icon' />
                     </Button>
                   </div>
                 </div>
@@ -149,12 +149,12 @@ export default function Page() {
                     <Button
                       variant={"outline"} className="w-10 h-10 p-0 ml-2"
                     >
-                      <Image src={'/icons/minus.svg'} width={16} height={16} alt='more icon' />
+                      <Image src={'/icons/minus.svg'} width={16} height={16} alt='minus icon' />
                     </Button>
                     <Button
                       variant={"outline"} className="w-10 h-10 p-0 ml-2"
                     >
-                      <Image src={'/icons/plus.svg'} width={16} height={16} alt='more icon' />
+                      <Image src={'/icons/plus.svg'} width={16} height={16} alt='plus icon' />
                     </Button>
                   </div>
                 </div>

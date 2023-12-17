@@ -96,7 +96,7 @@ export default function Page() {
 
     const prompt = `${JSON.stringify(
       transformedData
-    )}. Parse the data. Generate a short paragraph of user profile summary for this person. You are not required to give any explanation or whatsoever. Avoid writting too much.`;
+    )}. Parse the data. Generate a short paragraph of user profile summary for this person. You are not required to give any explanation whatsoever. Avoid writting too much.`;
 
     await generateSummary(prompt);
     // router.push("/onboarding/last-step");

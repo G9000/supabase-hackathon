@@ -35,6 +35,16 @@ textarea {
 
 /* For IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.shadow-smooth {
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.01),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.01),
+    0px 4px 2px 0px rgba(0, 0, 0, 0.01),
+    0px 7px 3px 0px rgba(0, 0, 0, 0.00),
+    0px 11px 3px 0px rgba(0, 0, 0, 0.00);
 }

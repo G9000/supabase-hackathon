@@ -4,6 +4,7 @@ import { Button } from "components/base/Button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "components/base/Collapsibe";
 import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const data = [
@@ -60,6 +61,9 @@ const composingRecipeConfig = {
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFinishShopping, setIsFinishShopping] = useState<boolean>(false);
+
+  const router = useRouter()
 
   const selectedIcon = (type: string) => {
     if (type === 'Pantry Essentials') return '/icons/pantry-essentials.png';
@@ -79,6 +83,10 @@ export default function Page() {
   const onSubmit = () => {
     setIsLoading(true);
   };
+
+  const onFinishShopping = () => {
+    router.push("/shopping/finish");
+  }
 
   const ComposingRecipe = () => {
     return (
@@ -104,11 +112,12 @@ export default function Page() {
                 <Image src={'/icons/spending.png'} width={48} height={48} alt="spending" />
                 <Button
                   className="p-0 overflow-hidden border border-white/10 rounded-full"
-                  disabled
+                  disabled={!isFinishShopping}
+                  onClick={onFinishShopping}
                 >
                   <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">
                     <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-[#3c3c3c] to-foreground font-bold text-base">
-                      Finish
+                      {isFinishShopping ? "Finish shopping" : "Finish"}
                     </span>
                   </span>
                 </Button>
@@ -116,7 +125,9 @@ export default function Page() {
               <div className="flex flex-row items-center justify-between w-full mt-4">
                 <div className="flex flex-col items-start">
                   <div className="text-base font-bold my-2 text-foreground/80">Total Spending</div>
-                  <div className="text-sm text-foreground/50">15 Items</div>
+                  <div className="text-sm text-foreground/50">
+                    {isFinishShopping ? 'All bought' : '15 Items'}
+                  </div>
                 </div>
                 <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-4 py-3 font-bold">32 SGD</div>
               </div>
@@ -127,25 +138,31 @@ export default function Page() {
                 <div className="relative flex flex-col items-start border bg-white rounded-3xl px-6 pt-7 w-full shadow-smooth mb-4">
                   <div className="flex items-center justify-between w-full">
                     <Image src={selectedIcon(item.type)} width={48} height={48} alt="spending" />
-                    <CollapsibleTrigger asChild className="data-[state=open]:rotate-180 transition-all">
-                      <Button
-                        variant={"outline"} className="w-10 h-10 p-0 ml-2"
-                      >
-                        <Image src={'/icons/chevron-down.svg'} width={16} height={16} alt='chevron icon' />
-                      </Button>
-                    </CollapsibleTrigger>
+                    {item.content.length === 0 && (
+                      <div className="h-10 bg-[#00D0651A] rounded-full px-3 flex items-center font-bold text-[#00D065]">Done</div>
+                    )}
+                    {item.content.length > 0 && (
+                      <CollapsibleTrigger asChild className="data-[state=open]:rotate-180 transition-all">
+                        <Button
+                          variant={"outline"} className="w-10 h-10 p-0 ml-2"
+                        >
+                          <Image src={'/icons/chevron-down.svg'} width={16} height={16} alt='chevron icon' />
+                        </Button>
+                      </CollapsibleTrigger>
+                    )}
                   </div>
                   <div className="flex items-center justify-between w-full">
                     <div className="flex flex-col items-start">
                       <div className="text-base font-bold mt-4 mb-2 text-foreground/80">{item.type}</div>
-                      <div className="text-sm text-foreground/50 mb-4">15 Items</div>
+                      <div className="text-sm text-foreground/50 mb-4">{item.content.length === 0 ? 'No items left' : `${item.content.length} items left`}</div>
                     </div>
                     <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-4 py-3 font-bold">32 SGD</div>
                   </div>
 
                   <CollapsibleContent className="pb-7 w-full">
-                    <div className="border border-dashed w-full h-[1px]" />
-
+                    {item.content.length > 0 && (
+                      <div className="border border-dashed w-full h-[1px]" />
+                    )}
                     {item.content.map((contentItem, index) => (
                       <div key={index} className="mt-4 flex items-center justify-between w-full">
                         <div className="flex flex-col items-start">

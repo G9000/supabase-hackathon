@@ -7,7 +7,7 @@ export default function Page() {
   const router = useRouter()
 
   const onClick = () => {
-    router.push("/mealplan");
+    router.push("/meal-plan");
   }
 
   return (

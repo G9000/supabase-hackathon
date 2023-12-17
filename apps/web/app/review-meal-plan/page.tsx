@@ -122,9 +122,9 @@ export default function Page() {
                       <Image src={selectedIcon(menu.title)} width={48} height={48} alt='breakfast' />
                       <div className="relative flex flex-col items-start ml-4 z-0">
                         <div className="text-foreground/50 text-sm">{menu.title}</div>
-                        <div className="text-foreground text-base font-bold">{menu.menu}</div>
+                        <div className="text-foreground text-base font-bold text-left max-w-[220px]">{menu.menu}</div>
                       </div>
-                      <div className="flex items-center absolute top-1/2 -translate-y-[50%] right-6 z-20 gap-2">
+                      <div className="flex items-center absolute top-1/2 -translate-y-[50%] right-6 z-20 gap-2 h-full bg-gradient-to-l from-white from-0% via-white via-90% to-white/50 to-100% pl-6">
                         {toggleStates[menu.id] && (
                           <>
                             <Button variant={"danger"} className="w-10 h-10 p-0">

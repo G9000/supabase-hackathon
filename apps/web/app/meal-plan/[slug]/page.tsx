@@ -218,7 +218,6 @@ export default function Page() {
                                                             </div>
                                                             <div className="flex items-center">
                                                                 <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-3 h-10 flex justify-center items-center font-bold">{ingredient.total}</div>
-                                                                <Button variant={"secondary"} className="h-10 p-0 ml-2 px-3">Use</Button>
                                                             </div>
 
                                                         </div>

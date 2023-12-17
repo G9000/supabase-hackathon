@@ -92,7 +92,7 @@ export default function Page() {
     <>
       {isLoading && ComposingRecipe()}
       {!isLoading && (
-        <div className="flex flex-col items-center text-center max-w-sm">
+        <div className="flex flex-col items-center text-center max-w-sm px-4 md:px-0">
           <h1 className="text-2xl font-extrabold leading-6 max-w-xs mt-4 text-center bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">Hey James here’s your meal plan for the next 2 weeks</h1>
           <p className="text-base text-foreground/50 my-4">Let’s review and edit your meal plan below. Whenever you’re ready let’s continue and Dash will provide the shopping lists</p>
           <Button

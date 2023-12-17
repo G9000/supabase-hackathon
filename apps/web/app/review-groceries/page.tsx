@@ -104,7 +104,7 @@ export default function Page() {
                 <Image src={'/icons/spending.png'} width={48} height={48} alt="spending" />
                 <div className="text-foreground/60 text-base border border-foreground/10 rounded-full px-4 py-3 font-bold">32 SGD</div>
               </div>
-              <div className="text-base font-bold my-2 text-foreground/80">Total Spending</div>
+              <div className="text-base font-bold my-2 text-foreground/80">Rough estimation</div>
               <div className="text-sm text-foreground/50">15 Items</div>
             </div>
 

@@ -134,7 +134,6 @@ export default function Page() {
               handleNext={handleNext}
               handleNextDisabled={answer1.length === 0}
             >
-              {answer1.length}
               <CardContent>
                 <Textarea
                   className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0"

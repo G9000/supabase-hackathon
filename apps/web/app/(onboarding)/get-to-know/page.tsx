@@ -88,7 +88,7 @@ export default function Page() {
       updateAllergies(data.allergies);
       updateDietaryPreferences(data.dietaryPreferences);
       updateCuisinePreferences(data.cuisinePreferences);
-      router.push("/onboarding-reviews");
+      router.push("/onboarding-review");
     }
   };
 

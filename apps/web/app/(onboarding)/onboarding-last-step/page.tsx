@@ -3,17 +3,19 @@
 import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { uuid } from "uuidv4";
 import { useState } from "react";
 import { useCompletion } from "ai/react";
 import OnboardingCard from "components/onboarding/OnboardingCard";
 import { Type as t, Static } from "@sinclair/typebox";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { CardContent } from "components/base/Card";
+import { useRouter } from "next/navigation";
 import { Textarea } from "components/base/Textarea";
 import { Label } from "components/base/Label";
 import { Input } from "components/base/Input";
 import { useForm } from "react-hook-form";
-import { useOnboardingStore } from "store/app-store";
+import { useOnboardingStore, useMealPlaStore } from "store/app-store";
 
 const config = {
   label: "Planning & Budget",
@@ -48,11 +50,14 @@ const mealPlanningSchema = t.Object({
 type MealPlanningSchema = Static<typeof mealPlanningSchema>;
 
 export default function Page() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const { filteredUserPreferencesData, mealPlanFrequency, budget } =
     useOnboardingStore();
+
+  const { updateMealPlans } = useMealPlaStore();
 
   const {
     register,
@@ -81,10 +86,13 @@ export default function Page() {
     }
   };
 
-  const { complete: generateSummary, completion: generateSummaryCompletion } =
-    useCompletion({
-      api: "/api/generate",
-    });
+  const {
+    complete: generateSummary,
+    completion: generateSummaryCompletion,
+    isLoading: generating,
+  } = useCompletion({
+    api: "/api/generate",
+  });
 
   const onSubmit = async (d: any) => {
     setIsLoading(true);
@@ -99,7 +107,38 @@ export default function Page() {
     )}. Parse the data. Generate a short paragraph of user profile summary for this person. You are not required to give any explanation whatsoever. Avoid writting too much.`;
 
     await generateSummary(prompt);
-    // router.push("/onboarding/last-step");
+
+    if (!generating) {
+      const payload = {
+        ...transformedData,
+      };
+
+      const generateMealPlan = await fetch("/api/assistant", {
+        method: "POST",
+        body: JSON.stringify({
+          prompt: JSON.stringify(payload),
+          assistantId: "asst_Mcer6SJdRZ1vgC0kpGh4d0Rd",
+        }),
+      });
+
+      if (generateMealPlan.ok) {
+        const responseJson = await generateMealPlan.json();
+        const transformedData = JSON.parse(responseJson).meal_plan;
+
+        console.log("transformedData", transformedData);
+
+        transformedData.forEach((d: any) => {
+          d.menus.forEach((menu: any) => {
+            menu.id = uuid();
+          });
+        });
+
+        updateMealPlans(transformedData);
+        router.push("/review-meal-plan");
+      } else {
+        console.error("Error:", generateMealPlan.statusText);
+      }
+    }
   };
 
   const [customValue, setCustomValue] = useState("");

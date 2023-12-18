@@ -8,6 +8,9 @@ import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import { useMealPlaStore } from "store/app-store";
 import type { MealItemI } from "store/app-store";
 import { useState, useEffect } from "react";
+import { uuid } from "uuidv4";
+import { flattenMealPlans } from "lib/payloadTransformer";
+import { useRouter } from "next/navigation";
 import { convertToDayOfTheWekk } from "lib/day";
 import MeaItem, { EditMealType } from "./MealItem";
 
@@ -17,6 +20,7 @@ const composingRecipeConfig = {
 };
 
 export default function Page() {
+  const router = useRouter();
   const supabase = createClient();
   const { mealPlans, updateMealPlans } = useMealPlaStore();
 
@@ -118,8 +122,6 @@ export default function Page() {
       required_meal_type: newMealType,
     };
 
-    console.log("mealPlans", payload);
-
     const generateMealPlan = await fetch("/api/assistant", {
       method: "POST",
       body: JSON.stringify({
@@ -158,16 +160,130 @@ export default function Page() {
     }
   }, [mealData, updateMealPlans]);
 
-  const onSubmit = () => {
+  function getMealNamesAsString(mealData: any[]): string {
+    let mealNames: string[] = [];
+
+    mealData.forEach((day) => {
+      day.menus.forEach((menu: any) => {
+        mealNames.push(menu.meal_name);
+      });
+    });
+
+    return mealNames.join(", ");
+  }
+
+  const onSubmit = async () => {
     setIsLoading(true);
+    let tempStack = [];
+    try {
+      const { data: dietPreferences } = await supabase
+        .from("diet_preferences")
+        .select("*")
+        .single();
+
+      // Batch processing to avoid loss of context
+      for (const meal of mealData) {
+        const payload = {
+          dietary_requirement: { ...dietPreferences },
+          menu: meal,
+        };
+
+        try {
+          const response = await fetch("/api/assistant", {
+            method: "POST",
+            body: JSON.stringify({
+              prompt: JSON.stringify(payload),
+              assistantId: "asst_yedxygO3D9HfvcFCn623C9Ir",
+            }),
+          });
+
+          if (!response.ok) {
+            console.error("Error:", response.statusText);
+            continue;
+          }
+
+          const responseJson = await response.json();
+          const parseJson = JSON.parse(responseJson).grocery_list;
+
+          //  IM  ASHAMED OF THIS
+          const mergedMeal = {
+            ...meal,
+            menus: meal.menus.map((menu) => {
+              const groceryList = parseJson.find((g: any) => g.id === menu.id)
+                ?.grocery_list;
+
+              if (groceryList) {
+                groceryList.forEach((grocery: any) => {
+                  let newId = uuid();
+                  grocery.id = newId;
+                  grocery.items.forEach((item: any) => {
+                    item.grocery_list_id = newId;
+                  });
+                });
+              }
+              return { ...menu, grocery_list: groceryList };
+            }),
+          };
+
+          console.log("mergedMeal", mergedMeal);
+          tempStack.push(mergedMeal);
+        } catch (error) {
+          console.error("Error in internal API call:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching diet preferences:", error);
+    } finally {
+      updateMealPlans(tempStack);
+      console.log("tempStack", tempStack);
+
+      //  IM  ASHAMED OF THIS
+      const flattenData = flattenMealPlans(tempStack);
+
+      const mealPlanData = flattenData.map(({ grocery_list, ...meal }) => ({
+        ...meal,
+      }));
+      await supabase.from("meal_plan").insert(mealPlanData);
+
+      console.log(flattenData[0].grocery_list);
+
+      const groceryListData = flattenData.flatMap((list) =>
+        list.grocery_list.map((grocery: any) => ({
+          id: grocery.id,
+          currency: grocery.currency,
+          grocery_type: grocery.grocery_type,
+          meal_id: list.id,
+        }))
+      );
+
+      await supabase.from("grocery_list").insert(groceryListData);
+
+      const groceryItemData = flattenData.flatMap((list) =>
+        list.grocery_list.flatMap((grocery: any) =>
+          grocery.items.map((item: any) => ({
+            item_name: item.name,
+            quantity: item.quantity,
+            price_per_unit: item.price_per_unit,
+            unit: item.unit,
+            grocery_list_id: grocery.id,
+            grocery_type: grocery.grocery_type,
+            meal_id: list.id,
+          }))
+        )
+      );
+
+      await supabase.from("grocery_items").insert(groceryItemData);
+
+      setIsLoading(false);
+      router.push("/review-groceries");
+    }
   };
 
   const ComposingRecipe = () => {
     return (
       <OnboardingLayout {...composingRecipeConfig}>
         <h1 className="loader mt-4 max-w-md text-center text-2xl font-extrabold opacity-50 bg-gradient-to-r from-[#0808081f] from-20% via-[#080808a2] via-50% to-[#0808081f] to-80% text-transparent bg-clip-text">
-          Generating shopping lists of Ramen, Tamagoyaki, Fuyunghai, Capcai,
-          Sushi, Karaage for the next 2 weeks
+          {getMealNamesAsString(mealData)}
         </h1>
       </OnboardingLayout>
     );

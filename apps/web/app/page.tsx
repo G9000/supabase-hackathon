@@ -1,6 +1,6 @@
 "use client";
-import { createClient } from "utils/supabase/server";
-import { cookies } from "next/headers";
+
+import { createClient } from "utils/supabase/client";
 
 import { Button } from "components/base/Button";
 import Image from "next/image";
@@ -27,8 +27,14 @@ const data = [
 ];
 
 export default function Page(): JSX.Element {
+  const supabase = createClient();
   async function handleClick() {
-    console.log("user");
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
   }
 
   return (
@@ -42,7 +48,10 @@ export default function Page(): JSX.Element {
           Get meal planning recommendation based on your preferences and
           schedule it the way you want
         </p>
-        <Button className="p-0 overflow-hidden border border-white/10 rounded-full">
+        <Button
+          onClick={handleClick}
+          className="p-0 overflow-hidden border border-white/10 rounded-full"
+        >
           <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">
             <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-[#3c3c3c] to-foreground font-bold text-base">
               Get started

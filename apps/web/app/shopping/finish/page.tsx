@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "components/base/Button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
@@ -12,6 +13,7 @@ export default function Page() {
 
   return (
     <div className="relative flex flex-col items-center text-center max-w-sm">
+      <Image src={'/shopping-finish.svg'} alt='finish shopping' width={262} height={134} />
       <h1 className="text-2xl font-extrabold leading-6 max-w-xs mt-4 text-center bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">Nothing to see here</h1>
       <p className="text-base text-foreground/50 my-4">You’ve already bought all of the groceries. We will remind you to go shop again in 2 weeks!</p>
       <Button

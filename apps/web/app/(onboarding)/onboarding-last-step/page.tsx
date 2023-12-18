@@ -3,6 +3,7 @@
 import OnboardingLayout from "components/onboarding/OnboardingLayout";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { uuid } from "uuidv4";
 import { useState } from "react";
 import { useCompletion } from "ai/react";
 import OnboardingCard from "components/onboarding/OnboardingCard";
@@ -122,7 +123,17 @@ export default function Page() {
 
       if (generateMealPlan.ok) {
         const responseJson = await generateMealPlan.json();
-        updateMealPlans(JSON.parse(responseJson).meal_plan);
+        const transformedData = JSON.parse(responseJson).meal_plan;
+
+        console.log("transformedData", transformedData);
+
+        transformedData.forEach((d: any) => {
+          d.menus.forEach((menu: any) => {
+            menu.id = uuid();
+          });
+        });
+
+        updateMealPlans(transformedData);
         router.push("/review-meal-plan");
       } else {
         console.error("Error:", generateMealPlan.statusText);

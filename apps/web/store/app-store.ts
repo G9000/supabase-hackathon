@@ -67,18 +67,33 @@ export const useOnboardingStore = createWithEqualityFn<OnboardingI>()(
   )
 );
 
+export interface ItemsI {
+  id: number;
+  name: string;
+  quantity: number;
+  price_per_unit: string;
+  unit: string;
+}
+export interface GroceryListI {
+  id: number;
+  grocery_type: string;
+  items: ItemsI[];
+}
 export interface MenuI {
   id: number;
   meal_name: string;
   mealtime_type: string;
   cuisine: string;
+  grocery_list?: GroceryListI[];
 }
 
 export interface MealItemI {
   id: number;
   date: string;
   menus: MenuI[];
+  currency: string;
 }
+
 export interface MealPlanI {
   mealPlans: MealItemI[];
   updateMealPlans: (mealPlans: MealItemI[] | undefined) => void;

@@ -32,7 +32,7 @@ export default function Page(): JSX.Element {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center overflow-x-auto gap-4 w-screen my-40 p-4 md:px-14">
+    <div className="flex flex-col md:flex-row items-center xl:justify-center overflow-x-auto gap-4 w-screen my-40 p-4 md:px-14 scrollbar-hide">
       <div className="flex flex-col flex-shrink-0 items-start md:w-[325px] border shadow-smooth border-[#08080808] rounded-3xl p-6 bg-white">
         <Image src={"/icons/mascot.svg"} width={64} height={65} alt="logo" />
         <h1 className="text-2xl font-extrabold leading-6 max-w-xs mt-4 bg-gradient-to-r from-[#080808CC] to-[#0808088F] text-transparent bg-clip-text">
@@ -42,10 +42,7 @@ export default function Page(): JSX.Element {
           Get meal planning recommendation based on your preferences and
           schedule it the way you want
         </p>
-        <Button
-          onClick={handleClick}
-          className="p-0 overflow-hidden border border-white/10 rounded-full"
-        >
+        <Button className="p-0 overflow-hidden border border-white/10 rounded-full">
           <span className="w-full h-full p-[2px] overflow-hidden rounded-full bg-gradient-to-b from-[#fafafa50] to-[#FAFAFA00]">
             <span className="flex items-center justify-center w-full h-full px-4 rounded-full bg-gradient-to-b from-[#3c3c3c] to-foreground font-bold text-base">
               Get started

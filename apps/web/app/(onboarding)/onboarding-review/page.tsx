@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import { useOnboardingStore } from "store/app-store";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Textarea } from "components/base/Textarea";
+import TextareaAutosize from 'react-textarea-autosize';
+import { cn } from "lib/cn";
 import { useCompletion } from "ai/react";
 import { createClient } from "utils/supabase/client";
 
@@ -31,6 +32,7 @@ type OnboardingSchema = Static<typeof onboardingSchema>;
 const config = {
   label: "Review preference",
   title: "Perfect, James! Let’s recap your meal preference",
+  withoutPadding: false,
 };
 
 interface EditableTextState {
@@ -153,7 +155,7 @@ export default function Page() {
 
   return (
     <OnboardingLayout {...config}>
-      <div className="flex flex-row text-left gap-5 w-screen overflow-x-auto items-center py-8 scrollbar-hide">
+      <div className="flex flex-row text-left gap-5 w-screen overflow-x-auto items-start py-8 px-10 scrollbar-hide">
         <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2 ml-auto">
           <div className="flex flex-row items-start justify-between">
             <Image src={"/icons/bento.png"} alt="icon" height={48} width={48} />
@@ -168,14 +170,14 @@ export default function Page() {
               {editableText.editableText1 ? "Done" : "Edit"}
             </div>
           </div>
-          <div className="mt-3 mb-2 text-foreground/50">You crave for</div>
-          <Textarea
-            className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0 disabled:opacity-100"
-            disabled={!editableText.editableText1}
-            {...register("likes")}
-          >
-            {likes}
-          </Textarea>
+          <div className={cn({ 'opacity-50': !editableText.editableText1 })}>
+            <div className="mt-3 mb-2 text-foreground/50">You crave for</div>
+            <TextareaAutosize
+              className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
+              {...register("likes")}
+              disabled={!editableText.editableText1}
+            />
+          </div>
         </div>
 
         <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2">
@@ -197,15 +199,15 @@ export default function Page() {
               {editableText.editableText2 ? "Done" : "Edit"}
             </div>
           </div>
-          <div className="mt-3 mb-2 text-foreground/50">You don’t likes</div>
 
-          <Textarea
-            className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0 disabled:opacity-100"
-            disabled={!editableText.editableText2}
-            {...register("dislikes")}
-          >
-            {dislikes}
-          </Textarea>
+          <div className={cn({ 'opacity-50': !editableText.editableText2 })}>
+            <div className="mt-3 mb-2 text-foreground/50">You don’t likes</div>
+            <TextareaAutosize
+              className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
+              {...register("dislikes")}
+              disabled={!editableText.editableText2}
+             />
+          </div>
         </div>
 
         <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
@@ -222,15 +224,15 @@ export default function Page() {
               {editableText.editableText3 ? "Done" : "Edit"}
             </div>
           </div>
-          <div className="mt-3 mb-2 text-foreground/50">You’re allergic to</div>
 
-          <Textarea
-            className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0 disabled:opacity-100"
-            disabled={!editableText.editableText3}
-            {...register("allergies")}
-          >
-            {allergies}
-          </Textarea>
+          <div className={cn({ 'opacity-50': !editableText.editableText3 })}>
+            <div className="mt-3 mb-2 text-foreground/50">You’re allergic to</div>
+            <TextareaAutosize
+              className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
+              {...register("allergies")}
+              disabled={!editableText.editableText3}
+            />
+          </div>
         </div>
 
         <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 rotate-2">
@@ -255,17 +257,17 @@ export default function Page() {
               {editableText.editableText4 ? "Done" : "Edit"}
             </div>
           </div>
-          <div className="mt-3 mb-2 text-foreground/50">
-            Your diet or restrictions
-          </div>
 
-          <Textarea
-            className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0 disabled:opacity-100"
-            disabled={!editableText.editableText4}
-            {...register("dietaryPreferences")}
-          >
-            {dietary_preferences}
-          </Textarea>
+          <div className={cn({ 'opacity-50': !editableText.editableText4 })}>
+            <div className="mt-3 mb-2 text-foreground/50">
+              Your diet or restrictions
+            </div>
+            <TextareaAutosize
+              className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
+              {...register("dietaryPreferences")}
+              disabled={!editableText.editableText4}
+            />
+          </div>
         </div>
 
         <div className="bg-white border border-foreground/3 rounded-3xl p-6 w-[242px] flex-shrink-0 -rotate-2 mr-auto">
@@ -285,17 +287,17 @@ export default function Page() {
               {editableText.editableText5 ? "Done" : "Edit"}
             </div>
           </div>
-          <div className="mt-3 mb-2 text-foreground/50">
-            Your cuisine preference
-          </div>
 
-          <Textarea
-            className="border-0 pl-0 text-2xl leading-6 font-bold h-[100px] focus-visible:ring-0 disabled:opacity-100"
-            disabled={!editableText.editableText5}
-            {...register("cuisinePreferences")}
-          >
-            {cuisine_preferences}
-          </Textarea>
+          <div className={cn({ 'opacity-50': !editableText.editableText5 })}>
+            <div className="mt-3 mb-2 text-foreground/50">
+              Your cuisine preference
+            </div>
+            <TextareaAutosize
+              className="border-0 pl-0 text-2xl leading-6 font-bold w-full focus-visible:ring-0 bg-white overflow-y-hidden"
+              {...register("cuisinePreferences")}
+              disabled={!editableText.editableText5}
+            />
+          </div>
         </div>
       </div>
 

@@ -22,7 +22,7 @@ const config = {
   title: "Sweet! Last one, tell us about your plan",
 };
 
-export const stageConfig1 = {
+const stageConfig1 = {
   title:
     "How long would you like this meal plan to cover? Pick the duration that suits you!",
   headerImgSrc: "calendar.png",
@@ -30,7 +30,7 @@ export const stageConfig1 = {
   totalStage: 2,
 };
 
-export const stageConfig2 = {
+const stageConfig2 = {
   title: "What is your budget for 2 Weeks meal plan?",
   headerImgSrc: "money.png",
   currStage: 2,

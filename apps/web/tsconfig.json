@@ -6,6 +6,8 @@
         "name": "next"
       }
     ],
+    "noEmit": false,
+    "noEmitOnError": false,
     "baseUrl": ".",
     "paths": {
       "providers/*": ["providers/*"],

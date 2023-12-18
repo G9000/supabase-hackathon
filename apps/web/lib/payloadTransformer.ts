@@ -51,7 +51,9 @@ export function combineAndFlattenGroceries(data: any) {
 
   return Object.entries(groupedItems).map(([type, group]) => ({
     grocery_type: type,
+    // @ts-ignore
     items: group.items,
+    // @ts-ignore
     currency: group.currency,
   }));
 }

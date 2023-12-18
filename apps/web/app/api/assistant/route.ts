@@ -31,6 +31,7 @@ export async function POST(req: Request) {
 
     if (checkStatus.status === "completed") {
       const messages = await openai.beta.threads.messages.list(thread.id);
+      // @ts-ignore
       return NextResponse.json(messages.data[0].content[0].text.value);
     }
   } catch (error) {

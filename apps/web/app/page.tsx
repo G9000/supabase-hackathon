@@ -10,19 +10,19 @@ const data = [
     id: 1,
     title: "Generate recipes",
     desc: "Dash can provide you recipes based on your, your diet program, favourite foods, hated ingredients, and so much more!",
-    image: "/icons/mascot.svg",
+    image: "/generate-recipe.svg",
   },
   {
     id: 2,
     title: "Inventory sync",
     desc: "While Dash provides the recipes, you can also sync your current groceries stock with Dash. So it can reminds you to shop",
-    image: "/icons/mascot.svg",
+    image: "/budget-estimation.svg",
   },
   {
     id: 3,
     title: "Budget estimation",
     desc: "Don’t worries about the recipes. We can provides the recommendations precisely based on your shop budgets",
-    image: "/icons/mascot.svg",
+    image: "/inventory-sync.svg",
   },
 ];
 

@@ -42,8 +42,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@18.0.7)(@types/react@18.0.22)(react-dom@18.2.0)(react@18.2.0)
       '@sinclair/typebox':
-        specifier: ^0.31.28
-        version: 0.31.28
+        specifier: ^0.32.0
+        version: 0.32.0
       '@supabase/ssr':
         specifier: ^0.0.10
         version: 0.0.10(@supabase/supabase-js@2.39.0)
@@ -1022,8 +1022,8 @@ packages:
     resolution: {integrity: sha512-2/U3GXA6YiPYQDLGwtGlnNgKYBSwCFIHf8Y9LUY5VATHdtbLlU0Y1R3QoBnT0aB4qv/BEiVVsj7LJXoQCgJ2vA==}
     dev: true
 
-  /@sinclair/typebox@0.31.28:
-    resolution: {integrity: sha512-/s55Jujywdw/Jpan+vsy6JZs1z2ZTGxTmbZTPiuSL2wz9mfzA2gN1zzaqmvfi4pq+uOt7Du85fkiwv5ymW84aQ==}
+  /@sinclair/typebox@0.32.0:
+    resolution: {integrity: sha512-FdBgO+ib0JCSPtq55cDva/5xd55vfAAyTXWVLCaTAFzNjVPaR5lNRKoEzMHTtArELEaHNs4E6WmdNJIY+gUoZw==}
     dev: false
 
   /@supabase/functions-js@2.1.5:
